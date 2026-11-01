@@ -1,15 +1,23 @@
 <div align="center">
 
+<img src="docs/icon.svg" width="96" height="96" alt="wealthywidgets logo" />
+
 # 🧩 wealthywidgets
 
 **A production-ready UI & live financial widget library with AI generation, real-time live data, and zero-build embeds.**
 
 [![CI](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml/badge.svg)](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml)
-[![Demo](https://img.shields.io/badge/Live_Showcase-active-7c3aed.svg)](https://anom-developer.github.io/wealthywidgets/)
-[![Notion](https://img.shields.io/badge/Notion-Compatible-000000?logo=notion&logoColor=white)](https://anom-developer.github.io/wealthywidgets/embed.html)
-[![PWA](https://img.shields.io/badge/PWA-Ready-10b981?logo=pwa&logoColor=white)](https://anom-developer.github.io/wealthywidgets/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![Demo](https://img.shields.io/badge/Live_Showcase-active-7c3aed.svg?style=flat-square)](https://anom-developer.github.io/wealthywidgets/)
+[![Notion](https://img.shields.io/badge/Notion-Compatible-000000?style=flat-square&logo=notion&logoColor=white)](https://anom-developer.github.io/wealthywidgets/embed.html)
+[![PWA](https://img.shields.io/badge/PWA-Ready-10b981?style=flat-square&logo=pwa&logoColor=white)](https://anom-developer.github.io/wealthywidgets/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+
+<br/>
+
+<a href="https://anom-developer.github.io/wealthywidgets/">
+  <img src="docs/showcase.svg" alt="WealthyWidgets Live Marquee Ticker, Crypto Sparkline and Weather Showcase" width="100%" />
+</a>
 
 </div>
 
