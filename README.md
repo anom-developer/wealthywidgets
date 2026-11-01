@@ -6,6 +6,8 @@
 
 [![CI](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml/badge.svg)](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml)
 [![Demo](https://img.shields.io/badge/Live_Showcase-active-7c3aed.svg)](https://anom-developer.github.io/wealthywidgets/)
+[![Notion](https://img.shields.io/badge/Notion-Compatible-000000?logo=notion&logoColor=white)](https://anom-developer.github.io/wealthywidgets/embed.html)
+[![PWA](https://img.shields.io/badge/PWA-Ready-10b981?logo=pwa&logoColor=white)](https://anom-developer.github.io/wealthywidgets/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
 
