@@ -7,6 +7,36 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [2.2.0] — 2026-11-01
+
+### Added
+- **Live Real-World APIs**:
+  - Binance 24hr Public Ticker API connected for real-time cryptocurrency quotes (BTC, ETH, SOL, BNB, DOGE, XRP, etc.) with automatic fallback.
+  - Open-Meteo Geocoding and Forecast API connected for global real-time weather in any city worldwide with WMO condition icons.
+  - Pulsing `LIVE API` badge indicator on widgets when real-time data is synced.
+- **Ticker Bar (`<wealthy-ticker>` / `<Ticker />`)**:
+  - Continuous marquee scrolling ticker bar with live crypto/stock quotes.
+  - Infinite seamless CSS animation, `pause-on-hover` interaction, custom scroll speed, and light/dark/pill design variants.
+- **Notion Embed Support**:
+  - Dedicated Notion embed compatibility mode (`embed.html?notion=true`) with adaptive light/dark theme matching Notion's palette.
+  - 1-click «Copy Notion URL» in Embed Studio for instant pasting into `/embed` Notion blocks.
+- **Progressive Web App (PWA)**:
+  - Added `docs/manifest.json`, `docs/icon.svg`, and `docs/sw.js` (Service Worker caching).
+  - Standalone mobile & desktop app install button with `beforeinstallprompt` support.
+- **FinanceWidget (React & Web Component)**:
+  - Interactive SVG sparkline mini-charts, 24h metrics (high/low/vol/cap), and multi-currency support including `RUB (₽)`.
+- **Embed Studio 🚀 & Standalone Examples**:
+  - Visual widget generator with live preview, HTML code copy, and standalone HTML download.
+  - Standalone pure-HTML zero-build example at `examples/html-embed/index.html`.
+- **Unit Tests**: Added test suites for `ActivityWidget`, `WeatherWidget`, `CodeWidget`, `FinanceWidget`, and `Ticker`.
+
+### Changed
+- Replaced all legacy `AceAnom` references with `anom-developer`.
+- Removed all `npm` dependencies, `.npmignore`, and `package-lock.json` in favor of standard zero-dependency Web Components and `pnpm`.
+- Set repository remote to `https://github.com/anom-developer/wealthywidgets.git`.
+
+---
+
 ## [2.1.0] — 2026-06-07
 
 ### Added
@@ -76,8 +106,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Rollup dual-format build (CJS + ESM) with extracted `styles.css`
 - MIT licence
 
-[Unreleased]: https://github.com/AceAnomDev/wealthywidgets/compare/v2.1.0...HEAD
-[2.1.0]: https://github.com/AceAnomDev/wealthywidgets/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/AceAnomDev/wealthywidgets/compare/v1.0.1...v2.0.0
-[1.0.1]: https://github.com/AceAnomDev/wealthywidgets/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/AceAnomDev/wealthywidgets/releases/tag/v1.0.0
+[Unreleased]: https://github.com/anom-developer/wealthywidgets/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/anom-developer/wealthywidgets/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/anom-developer/wealthywidgets/compare/v1.0.1...v2.0.0
+[1.0.1]: https://github.com/anom-developer/wealthywidgets/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/anom-developer/wealthywidgets/releases/tag/v1.0.0

@@ -56,13 +56,11 @@ else
   echo "Manual steps:"
   echo "  1. Create repo at https://github.com/new  (name: $REPO_NAME)"
   echo "  2. Then run:"
-  echo "     git remote add origin https://github.com/YOUR_USERNAME/$REPO_NAME.git"
+  echo "     git remote add origin https://github.com/anom-developer/$REPO_NAME.git"
   echo "     git branch -M main"
   echo "     git push -u origin main"
 fi
 
 echo ""
 echo "==> Next steps:"
-echo "  1. Replace YOUR_USERNAME in README.md and package.json"
-echo "  2. npm install  →  npm test  →  npm run build"
-echo "  3. To publish to npm manually: npm run build && npm publish --access public"
+echo "  1. pnpm install  →  pnpm test  →  pnpm run build"

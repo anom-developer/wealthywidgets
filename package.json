@@ -17,7 +17,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "storybook": "echo \"Storybook not installed. Run: npm install storybook @storybook/react-vite && npx storybook dev\"",
+    "storybook": "echo \"Static docs site is in docs/index.html — open directly in browser\"",
     "build-storybook": "echo \"Static docs site is in docs/index.html \u2014 no build needed\"",
     "clean": "rimraf dist",
     "format": "prettier --write \"src/**/*.{ts,tsx,scss}\"",
@@ -50,12 +50,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AceAnomDev/wealthywidgets.git"
+    "url": "https://github.com/anom-developer/wealthywidgets.git"
   },
   "bugs": {
-    "url": "https://github.com/AceAnomDev/wealthywidgets/issues"
+    "url": "https://github.com/anom-developer/wealthywidgets/issues"
   },
-  "homepage": "https://github.com/AceAnomDev/wealthywidgets#readme",
+  "homepage": "https://github.com/anom-developer/wealthywidgets#readme",
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
@@ -90,7 +90,6 @@
     "typescript": "^6.0.0"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=18.0.0"
   }
 }

@@ -5,9 +5,9 @@ Thank you for your interest in contributing! 🎉
 ## Development setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/wealthywidgets.git
+git clone https://github.com/anom-developer/wealthywidgets.git
 cd wealthywidgets
-npm install
+pnpm install
 ```
 
 ## Project structure
@@ -57,16 +57,16 @@ wealthywidgets/
 
 ## Scripts
 
-| Command              | Description                    |
-|----------------------|--------------------------------|
-| `npm run build`      | Build the library              |
-| `npm test`           | Run all tests                  |
-| `npm run test:watch` | Watch mode                     |
-| `npm run test:coverage` | Coverage report             |
-| `npm run lint`       | ESLint                         |
-| `npm run lint:fix`   | ESLint with auto-fix           |
-| `npm run type-check` | TypeScript type check          |
-| `npm run storybook`  | *(requires separate: `npm install storybook @storybook/react-vite`)* |
+| Command                 | Description                    |
+|-------------------------|--------------------------------|
+| `pnpm run build`        | Build the library              |
+| `pnpm test`             | Run all tests                  |
+| `pnpm run test:watch`   | Watch mode                     |
+| `pnpm run test:coverage`| Coverage report                |
+| `pnpm run lint`         | ESLint                         |
+| `pnpm run lint:fix`     | ESLint with auto-fix           |
+| `pnpm run type-check`   | TypeScript type check          |
+| `pnpm run storybook`    | Open static docs site          |
 
 ## Commit conventions
 
@@ -82,7 +82,7 @@ chore(deps): update rollup to 4.x
 
 ## Pull Request process
 
-1. Make sure `npm test` and `npm run build` pass locally.
+1. Make sure `pnpm test` and `pnpm run build` pass locally.
 2. Keep PRs focused — one feature/fix per PR.
 3. Update `README.md` if you add or change a public API.
 4. A maintainer will review and merge.

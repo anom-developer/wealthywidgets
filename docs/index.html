@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WealthyWidgets — Component Examples</title>
+  <title>WealthyWidgets — Component Showcase & Docs</title>
+  <meta name="description" content="Production-ready UI and Live Financial/Weather Widgets for Web, React, and Mobile PWA" />
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="dist/styles.css" />
+  <script src="dist/wealthywidgets.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,6 +30,7 @@
       --danger-light: #fee2e2;
       --info: #0284c7;
       --info-light: #e0f2fe;
+
       --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
@@ -31,83 +41,160 @@
       --gray-700: #374151;
       --gray-800: #1f2937;
       --gray-900: #111827;
+
+      --bg-body: #f9fafb;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f3f4f6;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+
       --radius: 8px;
       --radius-sm: 4px;
       --radius-lg: 12px;
+      --radius-xl: 16px;
       --radius-full: 9999px;
       --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
       --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
       --shadow-lg: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
     }
 
+    body.dark-mode {
+      --gray-50: #0f172a;
+      --gray-100: #1e293b;
+      --gray-200: #334155;
+      --gray-300: #475569;
+      --gray-400: #94a3b8;
+      --gray-500: #cbd5e1;
+      --gray-600: #e2e8f0;
+      --gray-700: #f1f5f9;
+      --gray-800: #f8fafc;
+      --gray-900: #ffffff;
+
+      --bg-body: #0b0f19;
+      --bg-surface: #131c2e;
+      --bg-surface-alt: #1a243b;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: #26334d;
+      --primary-light: rgba(124, 58, 237, 0.25);
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 15px;
-      color: var(--gray-800);
-      background: var(--gray-50);
+      color: var(--text-main);
+      background: var(--bg-body);
       line-height: 1.6;
+      transition: background-color .2s ease, color .2s ease;
     }
 
     /* ── Layout ── */
     .layout { display: flex; min-height: 100vh; }
 
     .sidebar {
-      width: 240px;
+      width: 250px;
       flex-shrink: 0;
-      background: #fff;
-      border-right: 1px solid var(--gray-200);
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-color);
       position: sticky;
       top: 0;
       height: 100vh;
       overflow-y: auto;
       padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+
+    .sidebar-top { flex: 1; }
 
     .sidebar-logo {
       padding: 0 20px 20px;
-      border-bottom: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--border-color);
       margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .sidebar-logo h1 { font-size: 16px; font-weight: 700; color: var(--primary); }
-    .sidebar-logo p  { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+    .sidebar-logo p  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    .sidebar-section { padding: 8px 20px 4px; font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .08em; color: var(--gray-400); }
+    .sidebar-section {
+      padding: 12px 20px 4px; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted);
+    }
 
     .sidebar a {
-      display: block; padding: 7px 20px; font-size: 14px; color: var(--gray-600);
-      text-decoration: none; border-radius: 0; transition: all .15s;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 20px; font-size: 14px; color: var(--text-muted);
+      text-decoration: none; transition: all .15s;
     }
-    .sidebar a:hover { background: var(--gray-50); color: var(--gray-900); }
-    .sidebar a.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .sidebar a:hover { background: var(--bg-surface-alt); color: var(--text-main); }
+    .sidebar a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
 
-    .main { flex: 1; padding: 48px; max-width: 900px; }
+    .sidebar-bottom {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    .theme-toggle-btn {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all .15s;
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .badge-pill-nav {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 9999px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .main { flex: 1; padding: 48px; max-width: 960px; }
 
     /* ── Page header ── */
-    .page-header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--gray-200); }
-    .page-header h2 { font-size: 28px; font-weight: 700; color: var(--gray-900); }
-    .page-header p  { margin-top: 8px; color: var(--gray-500); font-size: 15px; }
+    .page-header { margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+    .page-header h2 { font-size: 28px; font-weight: 700; color: var(--text-main); }
+    .page-header p  { margin-top: 8px; color: var(--text-muted); font-size: 15px; }
 
     /* ── Section ── */
-    .section { margin-bottom: 48px; }
+    .section { margin-bottom: 44px; }
     .section-title {
       font-size: 13px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .06em; color: var(--gray-400); margin-bottom: 16px;
+      letter-spacing: .06em; color: var(--text-muted); margin-bottom: 14px;
     }
 
     /* ── Example block ── */
     .example {
-      background: #fff; border: 1px solid var(--gray-200);
+      background: var(--bg-surface); border: 1px solid var(--border-color);
       border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px;
+      box-shadow: var(--shadow);
     }
     .example-label {
-      padding: 10px 16px; font-size: 12px; font-weight: 500;
-      color: var(--gray-500); background: var(--gray-50);
-      border-bottom: 1px solid var(--gray-200);
+      padding: 10px 18px; font-size: 12px; font-weight: 600;
+      color: var(--text-muted); background: var(--bg-surface-alt);
+      border-bottom: 1px solid var(--border-color);
+      display: flex; justify-content: space-between; align-items: center;
     }
     .example-preview {
-      padding: 32px 24px; display: flex; flex-wrap: wrap;
-      gap: 12px; align-items: flex-start;
+      padding: 28px 24px; display: flex; flex-wrap: wrap;
+      gap: 14px; align-items: flex-start;
     }
     .example-preview.center { justify-content: center; }
     .example-preview.column { flex-direction: column; }
@@ -115,64 +202,68 @@
 
     /* ── Code block ── */
     .code-block {
-      background: var(--gray-900); border-radius: var(--radius);
+      background: #111827; border-radius: var(--radius);
       padding: 16px 20px; margin-top: 8px; overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .code-block code {
-      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
       font-size: 13px; color: #e5e7eb; line-height: 1.7;
     }
-    .code-block .kw  { color: #c084fc; }
+    .code-block .kw  { color: #c084fc; font-weight: 600; }
     .code-block .str { color: #86efac; }
     .code-block .tag { color: #67e8f9; }
     .code-block .attr{ color: #fde68a; }
-    .code-block .cmt { color: #6b7280; }
+    .code-block .cmt { color: #9ca3af; font-style: italic; }
 
     /* ── Install banner ── */
     .install-banner {
-      background: linear-gradient(135deg, var(--primary) 0%, #5b21b6 100%);
-      color: #fff; border-radius: var(--radius-lg); padding: 32px 36px; margin-bottom: 48px;
+      background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 100%);
+      color: #fff; border-radius: var(--radius-lg); padding: 32px 36px; margin-bottom: 40px;
+      box-shadow: var(--shadow-lg);
     }
-    .install-banner h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-    .install-banner p  { opacity: .85; margin-bottom: 20px; }
+    .install-banner h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .install-banner p  { opacity: .9; margin-bottom: 20px; font-size: 15px; }
     .install-cmd {
-      background: rgba(0,0,0,.25); border-radius: var(--radius);
-      padding: 12px 16px; font-family: monospace; font-size: 14px;
-      display: inline-block; letter-spacing: .02em;
+      background: rgba(0,0,0,.35); border-radius: var(--radius);
+      padding: 10px 16px; font-family: monospace; font-size: 14px;
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
     }
 
     /* ── Prop table ── */
     .prop-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     .prop-table th {
-      text-align: left; padding: 8px 12px; background: var(--gray-50);
-      border-bottom: 2px solid var(--gray-200); font-weight: 600; color: var(--gray-700);
+      text-align: left; padding: 10px 14px; background: var(--bg-surface-alt);
+      border-bottom: 2px solid var(--border-color); font-weight: 600; color: var(--text-main);
     }
-    .prop-table td { padding: 8px 12px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+    .prop-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-color); vertical-align: top; color: var(--text-main); }
     .prop-table tr:last-child td { border-bottom: none; }
-    .prop-table code { background: var(--gray-100); padding: 1px 5px; border-radius: 3px; font-size: 12px; font-family: monospace; }
+    .prop-table code { background: var(--bg-surface-alt); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
 
     /* ── Page visibility ── */
     .page { display: none; }
-    .page.active { display: block; }
+    .page.active { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ─────────────────────────── COMPONENTS ─────────────────────────── */
 
     /* Button */
     .ww-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      gap: 6px; font-size: 14px; font-weight: 500; border: none; cursor: pointer;
+      gap: 8px; font-size: 14px; font-weight: 500; border: none; cursor: pointer;
       border-radius: var(--radius); transition: all .15s; white-space: nowrap;
-      padding: 8px 16px; line-height: 1.4; text-decoration: none;
+      padding: 8px 16px; line-height: 1.4; text-decoration: none; outline: none;
     }
     .ww-btn:disabled { opacity: .5; cursor: not-allowed; }
-    .ww-btn--primary   { background: var(--primary);   color: #fff; }
-    .ww-btn--primary:hover:not(:disabled) { background: var(--primary-hover); }
-    .ww-btn--secondary { background: var(--gray-100);  color: var(--gray-700); }
-    .ww-btn--secondary:hover:not(:disabled) { background: var(--gray-200); }
+    .ww-btn--primary   { background: var(--primary); color: #fff; }
+    .ww-btn--primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
+    .ww-btn--secondary { background: var(--bg-surface-alt); color: var(--text-main); border: 1px solid var(--border-color); }
+    .ww-btn--secondary:hover:not(:disabled) { background: var(--border-color); }
     .ww-btn--outline   { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
     .ww-btn--outline:hover:not(:disabled) { background: var(--primary-light); }
-    .ww-btn--ghost     { background: transparent; color: var(--gray-600); }
-    .ww-btn--ghost:hover:not(:disabled) { background: var(--gray-100); }
+    .ww-btn--ghost     { background: transparent; color: var(--text-muted); }
+    .ww-btn--ghost:hover:not(:disabled) { background: var(--bg-surface-alt); color: var(--text-main); }
     .ww-btn--danger    { background: var(--danger); color: #fff; }
     .ww-btn--danger:hover:not(:disabled) { background: #b91c1c; }
     .ww-btn--success   { background: var(--success); color: #fff; }
@@ -199,7 +290,7 @@
     .ww-badge--pill { border-radius: var(--radius-full); }
     .ww-badge--sm { font-size: 10px; padding: 2px 6px; }
     .ww-badge--lg { font-size: 14px; padding: 4px 10px; }
-    .ww-badge--default { background: var(--gray-200);    color: var(--gray-700); }
+    .ww-badge--default { background: var(--bg-surface-alt); color: var(--text-muted); border: 1px solid var(--border-color); }
     .ww-badge--primary { background: var(--primary-light); color: var(--primary); }
     .ww-badge--success { background: var(--success-light); color: var(--success); }
     .ww-badge--warning { background: var(--warning-light); color: var(--warning); }
@@ -207,86 +298,132 @@
     .ww-badge--info    { background: var(--info-light);    color: var(--info); }
 
     /* Input */
-    .ww-field { display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 360px; }
-    .ww-label { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+    .ww-field { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 380px; }
+    .ww-label { font-size: 13px; font-weight: 600; color: var(--text-main); }
     .ww-label--required::after { content: ' *'; color: var(--danger); }
     .ww-input-wrap { position: relative; display: flex; align-items: center; }
     .ww-input {
-      width: 100%; padding: 8px 12px; border: 1.5px solid var(--gray-300);
-      border-radius: var(--radius); font-size: 14px; color: var(--gray-800);
-      background: #fff; transition: border-color .15s, box-shadow .15s; outline: none;
+      width: 100%; padding: 8px 12px; border: 1.5px solid var(--border-color);
+      border-radius: var(--radius); font-size: 14px; color: var(--text-main);
+      background: var(--bg-surface); transition: border-color .15s, box-shadow .15s; outline: none;
     }
-    .ww-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
-    .ww-input:disabled { background: var(--gray-50); color: var(--gray-400); cursor: not-allowed; }
+    .ww-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,.15); }
+    .ww-input:disabled { background: var(--bg-surface-alt); color: var(--text-muted); cursor: not-allowed; }
     .ww-input--error  { border-color: var(--danger); }
-    .ww-input--error:focus { box-shadow: 0 0 0 3px rgba(220,38,38,.12); }
+    .ww-input--error:focus { box-shadow: 0 0 0 3px rgba(220,38,38,.15); }
     .ww-input--success{ border-color: var(--success); }
-    .ww-hint  { font-size: 12px; color: var(--gray-400); }
-    .ww-msg   { font-size: 12px; }
+    .ww-hint  { font-size: 12px; color: var(--text-muted); }
+    .ww-msg   { font-size: 12px; font-weight: 500; }
     .ww-msg--error   { color: var(--danger); }
     .ww-msg--success { color: var(--success); }
 
+    .ww-input-ai-btn {
+      position: absolute; right: 8px; background: none; border: none;
+      color: var(--primary); font-size: 16px; cursor: pointer; padding: 2px 6px;
+      border-radius: var(--radius-sm); transition: transform .15s;
+    }
+    .ww-input-ai-btn:hover { transform: scale(1.15); background: var(--primary-light); }
+
     /* Card */
     .ww-card {
-      background: #fff; border-radius: var(--radius-lg);
-      border: 1px solid var(--gray-200); overflow: hidden;
+      background: var(--bg-surface); border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color); overflow: hidden;
       transition: box-shadow .15s, transform .15s;
     }
     .ww-card--elevated { box-shadow: var(--shadow-md); border-color: transparent; }
-    .ww-card--outlined { border-color: var(--gray-300); }
+    .ww-card--outlined { border-color: var(--border-color); }
     .ww-card--clickable { cursor: pointer; }
-    .ww-card--clickable:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+    .ww-card--clickable:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
     .ww-card__img { width: 100%; object-fit: cover; display: block; aspect-ratio: 16/9; }
     .ww-card__body { padding: 20px; }
-    .ww-card__title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
-    .ww-card__sub   { font-size: 12px; color: var(--gray-400); margin-bottom: 8px; }
-    .ww-card__desc  { font-size: 14px; color: var(--gray-500); line-height: 1.55; margin-bottom: 16px; }
+    .ww-card__title { font-size: 16px; font-weight: 600; color: var(--text-main); margin-bottom: 4px; }
+    .ww-card__sub   { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .ww-card__desc  { font-size: 14px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
     .ww-card__actions { display: flex; gap: 8px; }
 
     /* Modal */
     .ww-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,.5);
+      position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(2px);
       display: flex; align-items: center; justify-content: center;
       z-index: 1000; padding: 16px;
     }
     .ww-backdrop.hidden { display: none; }
     .ww-modal {
-      background: #fff; border-radius: var(--radius-lg); width: 100%; max-width: 480px;
+      background: var(--bg-surface); border-radius: var(--radius-xl); width: 100%; max-width: 480px;
       box-shadow: var(--shadow-lg); padding: 24px; position: relative;
-      animation: modal-in .2s ease;
+      animation: modal-in .2s ease; border: 1px solid var(--border-color);
     }
     .ww-modal__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-    .ww-modal__title { font-size: 18px; font-weight: 600; color: var(--gray-900); }
-    .ww-modal__desc  { font-size: 14px; color: var(--gray-400); margin-top: 4px; }
+    .ww-modal__title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+    .ww-modal__desc  { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
     .ww-modal__close {
-      background: none; border: none; cursor: pointer; padding: 4px;
-      color: var(--gray-400); border-radius: var(--radius-sm); font-size: 16px;
+      background: none; border: none; cursor: pointer; padding: 4px 8px;
+      color: var(--text-muted); border-radius: var(--radius-sm); font-size: 16px;
     }
-    .ww-modal__close:hover { color: var(--gray-700); background: var(--gray-100); }
-    .ww-modal__body  { font-size: 14px; color: var(--gray-600); margin-bottom: 20px; }
+    .ww-modal__close:hover { color: var(--text-main); background: var(--bg-surface-alt); }
+    .ww-modal__body  { font-size: 14px; color: var(--text-main); margin-bottom: 24px; }
     .ww-modal__footer{ display: flex; justify-content: flex-end; gap: 8px; }
 
-    /* Dropdown */
-    .ww-select-wrap { position: relative; width: 100%; max-width: 280px; }
-    .ww-select-label { font-size: 13px; font-weight: 500; color: var(--gray-700); margin-bottom: 5px; display: block; }
-    .ww-select-trigger {
-      width: 100%; padding: 8px 36px 8px 12px; border: 1.5px solid var(--gray-300);
-      border-radius: var(--radius); font-size: 14px; color: var(--gray-800);
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
-      appearance: none; cursor: pointer; outline: none; transition: border-color .15s;
+    /* Custom Dropdown (WealthyWidgets) */
+    .ww-dropdown-custom {
+      position: relative; width: 100%; max-width: 320px; font-size: 14px;
     }
-    .ww-select-trigger:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
+    .ww-dropdown-label { font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; display: block; }
+    .ww-dropdown-trigger {
+      width: 100%; min-height: 40px; padding: 6px 12px; border: 1.5px solid var(--border-color);
+      border-radius: var(--radius); background: var(--bg-surface); color: var(--text-main);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+      user-select: none; transition: border-color .15s;
+    }
+    .ww-dropdown-trigger:focus, .ww-dropdown-trigger.open {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,.15);
+    }
+    .ww-dropdown-tags { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
+    .ww-dropdown-tag {
+      background: var(--primary-light); color: var(--primary); padding: 2px 8px;
+      border-radius: var(--radius-sm); font-size: 12px; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .ww-dropdown-tag-del { cursor: pointer; font-size: 12px; opacity: .7; }
+    .ww-dropdown-tag-del:hover { opacity: 1; }
+    .ww-dropdown-arrow { font-size: 10px; color: var(--text-muted); transition: transform .2s; }
+    .ww-dropdown-arrow.open { transform: rotate(180deg); }
+
+    .ww-dropdown-menu {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: var(--bg-surface); border: 1px solid var(--border-color);
+      border-radius: var(--radius); box-shadow: var(--shadow-lg); z-index: 500;
+      padding: 6px; display: none; animation: slideDown .15s ease;
+    }
+    .ww-dropdown-menu.show { display: block; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .ww-dropdown-search-box { margin-bottom: 6px; }
+    .ww-dropdown-search-input {
+      width: 100%; padding: 6px 10px; font-size: 13px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color); background: var(--bg-surface-alt);
+      color: var(--text-main); outline: none;
+    }
+    .ww-dropdown-search-input:focus { border-color: var(--primary); }
+    .ww-dropdown-options-list { max-height: 180px; overflow-y: auto; list-style: none; }
+    .ww-dropdown-opt {
+      padding: 7px 10px; border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      color: var(--text-main); transition: background .12s;
+    }
+    .ww-dropdown-opt:hover { background: var(--bg-surface-alt); }
+    .ww-dropdown-opt.selected { background: var(--primary-light); color: var(--primary); font-weight: 600; }
 
     /* Progress */
-    .ww-progress { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 400px; }
-    .ww-progress__header { display: flex; justify-content: space-between; font-size: 13px; color: var(--gray-600); }
+    .ww-progress { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 440px; }
+    .ww-progress__header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); font-weight: 500; }
     .ww-progress__track {
-      width: 100%; background: var(--gray-200); border-radius: var(--radius-full); overflow: hidden; height: 8px;
+      width: 100%; background: var(--border-color); border-radius: var(--radius-full); overflow: hidden; height: 10px;
     }
     .ww-progress__track--xs { height: 4px; }
     .ww-progress__track--sm { height: 6px; }
-    .ww-progress__track--lg { height: 12px; }
-    .ww-progress__fill { height: 100%; border-radius: var(--radius-full); transition: width .5s ease; }
+    .ww-progress__track--lg { height: 14px; }
+    .ww-progress__fill { height: 100%; border-radius: var(--radius-full); transition: width .4s cubic-bezier(.4, 0, .2, 1); }
     .ww-progress__fill--default { background: var(--primary); }
     .ww-progress__fill--success { background: var(--success); }
     .ww-progress__fill--warning { background: var(--warning); }
@@ -294,51 +431,257 @@
     .ww-progress__fill--info    { background: var(--info); }
     .ww-progress__fill--striped {
       background-image: repeating-linear-gradient(
-        45deg, rgba(255,255,255,.2) 0, rgba(255,255,255,.2) 4px, transparent 4px, transparent 8px
+        45deg, rgba(255,255,255,.2) 0, rgba(255,255,255,.2) 6px, transparent 6px, transparent 12px
       );
+    }
+    .ww-progress__fill--animated {
+      animation: progress-pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes progress-pulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
     }
 
     /* Tooltip */
     .ww-tip-wrap { position: relative; display: inline-block; }
     .ww-tip-bubble {
       position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
-      background: var(--gray-900); color: #fff; font-size: 12px; padding: 5px 10px;
+      background: #111827; color: #fff; font-size: 12px; padding: 6px 12px;
       border-radius: var(--radius-sm); white-space: nowrap; pointer-events: none;
-      opacity: 0; transition: opacity .15s; z-index: 100;
+      opacity: 0; transition: opacity .15s, transform .15s; z-index: 100;
+      box-shadow: var(--shadow-md);
     }
     .ww-tip-wrap:hover .ww-tip-bubble,
-    .ww-tip-wrap:focus-within .ww-tip-bubble { opacity: 1; }
-    .ww-tip-bubble--light { background: #fff; color: var(--gray-800); box-shadow: var(--shadow-md); }
+    .ww-tip-wrap:focus-within .ww-tip-bubble { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+    .ww-tip-bubble--light { background: #fff; color: #111827; border: 1px solid var(--border-color); }
 
     /* Toast */
     .ww-toast-stack {
-      position: fixed; top: 16px; right: 16px; z-index: 9999;
-      display: flex; flex-direction: column; gap: 8px; width: 320px;
+      position: fixed; top: 20px; right: 20px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 10px; width: 340px;
     }
     .ww-toast {
-      display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-lg);
-      border-left: 3px solid var(--gray-300); animation: slide-in .25s ease;
+      display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px;
+      background: var(--bg-surface); border-radius: var(--radius); box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color); border-left: 4px solid var(--border-color);
+      animation: slide-in .25s ease; color: var(--text-main);
     }
     .ww-toast--success { border-left-color: var(--success); }
     .ww-toast--warning { border-left-color: var(--warning); }
     .ww-toast--danger  { border-left-color: var(--danger); }
     .ww-toast--info    { border-left-color: var(--info); }
-    .ww-toast__icon { font-size: 15px; line-height: 1.4; flex-shrink: 0; }
+    .ww-toast__icon { font-size: 16px; line-height: 1.4; flex-shrink: 0; }
     .ww-toast--success .ww-toast__icon { color: var(--success); }
     .ww-toast--warning .ww-toast__icon { color: var(--warning); }
     .ww-toast--danger  .ww-toast__icon { color: var(--danger); }
     .ww-toast--info    .ww-toast__icon { color: var(--info); }
     .ww-toast__body { flex: 1; }
-    .ww-toast__title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-    .ww-toast__msg   { font-size: 13px; color: var(--gray-500); }
-    .ww-toast__close { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 13px; padding: 0; }
-    .ww-toast__close:hover { color: var(--gray-700); }
+    .ww-toast__title { font-size: 13.5px; font-weight: 700; margin-bottom: 2px; }
+    .ww-toast__msg   { font-size: 13px; color: var(--text-muted); }
+    .ww-toast__close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 14px; }
+    .ww-toast__close:hover { color: var(--text-main); }
 
     /* ProgressBar demo row */
     .pb-row { display: flex; align-items: center; gap: 12px; }
     .pb-row .ww-progress { flex: 1; }
-    .pb-row span { font-size: 12px; color: var(--gray-500); width: 36px; text-align: right; flex-shrink: 0; }
+    .pb-row span { font-size: 12px; color: var(--text-muted); width: 36px; text-align: right; flex-shrink: 0; }
+
+    /* ── WIDGET: ActivityWidget ── */
+    .ww-activity {
+      background: var(--bg-surface); border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl); padding: 22px; max-width: 480px; width: 100%;
+      box-shadow: var(--shadow-md); display: flex; flex-direction: column; gap: 14px;
+    }
+    .ww-activity__header { display: flex; justify-content: space-between; align-items: center; }
+    .ww-activity__title { font-size: 16px; font-weight: 700; color: var(--text-main); }
+    .ww-activity__filter-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+    .ww-activity__tab {
+      padding: 3px 10px; font-size: 12px; font-weight: 500; border-radius: var(--radius-full);
+      border: 1px solid var(--border-color); background: var(--bg-surface-alt);
+      color: var(--text-muted); cursor: pointer; transition: all .15s;
+    }
+    .ww-activity__tab:hover { color: var(--text-main); }
+    .ww-activity__tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .ww-activity__ai-bar {
+      display: flex; gap: 8px; align-items: center; background: var(--bg-surface-alt);
+      padding: 6px 10px; border-radius: var(--radius); border: 1px solid var(--border-color);
+    }
+    .ww-activity__ai-bar:focus-within { border-color: var(--primary); }
+    .ww-activity__ai-input {
+      flex: 1; border: none; background: transparent; font-size: 13px; color: var(--text-main); outline: none;
+    }
+    .ww-activity__ai-btn {
+      background: var(--primary); color: #fff; border: none; font-size: 12px;
+      padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600;
+    }
+    .ww-activity__ai-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .ww-activity__list { display: flex; flex-direction: column; gap: 0; }
+    .ww-activity__item {
+      display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-color);
+      align-items: flex-start; position: relative;
+    }
+    .ww-activity__item:last-child { border-bottom: none; }
+    .ww-activity__dot {
+      width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; flex-shrink: 0;
+    }
+    .ww-activity__item--success .ww-activity__dot { background: var(--success); box-shadow: 0 0 0 3px var(--success-light); }
+    .ww-activity__item--danger  .ww-activity__dot { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-light); }
+    .ww-activity__item--info    .ww-activity__dot { background: var(--info); box-shadow: 0 0 0 3px var(--info-light); }
+    .ww-activity__item--warning .ww-activity__dot { background: var(--warning); box-shadow: 0 0 0 3px var(--warning-light); }
+    .ww-activity__content { flex: 1; }
+    .ww-activity__label { font-size: 14px; font-weight: 600; color: var(--text-main); }
+    .ww-activity__desc  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .ww-activity__time  { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .ww-activity__del-btn {
+      background: none; border: none; color: var(--text-muted); cursor: pointer;
+      font-size: 12px; opacity: 0; transition: opacity .15s;
+    }
+    .ww-activity__item:hover .ww-activity__del-btn { opacity: 1; }
+    .ww-activity__toggle-btn {
+      width: 100%; padding: 8px; font-size: 13px; font-weight: 500; color: var(--primary);
+      background: var(--bg-surface-alt); border: 1px dashed var(--border-color);
+      border-radius: var(--radius); cursor: pointer; transition: all .15s;
+    }
+    .ww-activity__toggle-btn:hover { background: var(--primary-light); }
+
+    /* ── WIDGET: WeatherWidget ── */
+    .ww-weather {
+      border-radius: var(--radius-xl); padding: 24px; color: #fff; max-width: 440px; width: 100%;
+      box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 16px;
+      transition: background 0.4s ease;
+    }
+    .ww-weather__top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .ww-weather__main-temp { font-size: 42px; font-weight: 800; line-height: 1; }
+    .ww-weather__loc { font-size: 16px; font-weight: 600; opacity: .9; margin-top: 4px; }
+    .ww-weather__cond-text { font-size: 13px; opacity: .8; }
+    .ww-weather__big-icon { font-size: 48px; line-height: 1; }
+
+    .ww-weather__details-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      background: rgba(0,0,0,0.18); border-radius: var(--radius); padding: 12px;
+    }
+    .ww-weather__detail-item { text-align: center; }
+    .ww-weather__detail-label { font-size: 10px; text-transform: uppercase; opacity: .7; letter-spacing: .04em; }
+    .ww-weather__detail-val   { font-size: 13px; font-weight: 700; margin-top: 2px; }
+
+    .ww-weather__forecast-row {
+      display: flex; justify-content: space-between; gap: 6px;
+      background: rgba(0,0,0,0.14); border-radius: var(--radius); padding: 10px 14px;
+    }
+    .ww-weather__forecast-col { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; }
+    .ww-weather__forecast-day { font-size: 11px; opacity: .75; font-weight: 600; }
+
+    .ww-weather__controls {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .ww-weather__chip {
+      padding: 4px 10px; border-radius: var(--radius-full); font-size: 12px; font-weight: 500;
+      border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-main);
+      cursor: pointer; transition: all .15s;
+    }
+    .ww-weather__chip:hover { border-color: var(--primary); }
+    .ww-weather__chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ── WIDGET: CodeWidget ── */
+    .ww-code-widget {
+      background: #0f172a; border-radius: var(--radius-xl); overflow: hidden;
+      border: 1px solid #1e293b; box-shadow: var(--shadow-lg); color: #e2e8f0;
+      max-width: 650px; width: 100%;
+    }
+    .ww-code-widget__bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 16px; background: #1e293b; border-bottom: 1px solid #334155;
+    }
+    .ww-code-widget__dots { display: flex; gap: 6px; align-items: center; }
+    .ww-code-widget__dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .ww-code-widget__dot--r { background: #ef4444; }
+    .ww-code-widget__dot--y { background: #f59e0b; }
+    .ww-code-widget__dot--g { background: #22c55e; }
+    .ww-code-widget__filename { margin-left: 8px; font-size: 12px; font-family: monospace; color: #94a3b8; }
+    .ww-code-widget__actions { display: flex; gap: 8px; align-items: center; }
+    .ww-code-widget__btn {
+      font-size: 11px; padding: 4px 10px; background: #334155; border: none; border-radius: 4px;
+      color: #cbd5e1; cursor: pointer; transition: all .15s; font-family: monospace;
+    }
+    .ww-code-widget__btn:hover { background: #475569; color: #fff; }
+    .ww-code-widget__btn.active { background: var(--primary); color: #fff; }
+
+    .ww-code-widget__tabs {
+      display: flex; background: #131d33; border-bottom: 1px solid #1e293b; padding: 0 8px;
+    }
+    .ww-code-widget__tab {
+      padding: 8px 14px; font-size: 12px; font-family: monospace; color: #94a3b8;
+      background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer;
+    }
+    .ww-code-widget__tab.active { color: #67e8f9; border-bottom-color: #67e8f9; font-weight: 600; }
+
+    .ww-code-widget__body { padding: 16px; overflow-x: auto; max-height: 380px; }
+    .ww-code-widget__table {
+      border-collapse: collapse; width: 100%; font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 13px; line-height: 1.7;
+    }
+    .ww-code-widget__num {
+      color: #475569; padding-right: 18px; user-select: none; text-align: right; min-width: 24px;
+    }
+    .ww-code-widget__row--highlight { background: rgba(124, 58, 237, 0.22); border-left: 3px solid #c084fc; }
+    .ww-code-widget__editable-area {
+      width: 100%; min-height: 200px; background: transparent; border: none; outline: none;
+      font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; line-height: 1.7;
+      color: #e2e8f0; resize: vertical;
+    }
+
+    /* ── WIDGET: FinanceWidget (NEW!) ── */
+    .ww-finance {
+      background: var(--bg-surface); border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl); padding: 24px; box-shadow: var(--shadow-lg);
+      max-width: 480px; width: 100%; display: flex; flex-direction: column; gap: 16px;
+    }
+    .ww-finance__header { display: flex; justify-content: space-between; align-items: center; }
+    .ww-finance__title { font-size: 16px; font-weight: 700; color: var(--text-main); }
+    .ww-finance__curr-select {
+      font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color); background: var(--bg-surface-alt); color: var(--text-main);
+    }
+    .ww-finance__tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+    .ww-finance__tab {
+      display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; font-size: 12px;
+      font-weight: 600; border-radius: var(--radius-full); border: 1px solid var(--border-color);
+      background: var(--bg-surface-alt); color: var(--text-muted); cursor: pointer; transition: all .15s;
+    }
+    .ww-finance__tab:hover { color: var(--text-main); }
+    .ww-finance__tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .ww-finance__card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff; border-radius: var(--radius-lg); padding: 20px;
+      display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow-md);
+    }
+    .ww-finance__asset-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .ww-finance__asset-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .ww-finance__asset-sub   { font-size: 11px; color: #94a3b8; }
+    .ww-finance__badge {
+      display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px;
+      border-radius: var(--radius-full); font-size: 12px; font-weight: 700;
+    }
+    .ww-finance__badge--pos { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .ww-finance__badge--neg { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .ww-finance__price { font-size: 30px; font-weight: 800; font-family: monospace; letter-spacing: -0.02em; }
+    .ww-finance__sparkline-svg { width: 100%; height: 50px; overflow: visible; }
+    .ww-finance__stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .ww-finance__stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .ww-finance__stat-label { font-size: 10.5px; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; }
+    .ww-finance__stat-val   { font-size: 13px; font-weight: 700; font-family: monospace; }
+
+    .ww-finance__ai-box {
+      background: var(--bg-surface-alt); border-radius: var(--radius); padding: 12px;
+      border: 1px solid var(--border-color); font-size: 12.5px; line-height: 1.5; color: var(--text-main);
+    }
 
     /* ── Animations ── */
     @keyframes spin     { to { transform: rotate(360deg); } }
@@ -346,41 +689,62 @@
     @keyframes slide-in { from { opacity:0; transform: translateX(40px); } to { opacity:1; transform: translateX(0); } }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
       .layout { flex-direction: column; }
-      .sidebar { width: 100%; height: auto; position: static; padding: 12px 0; overflow-x: auto; white-space: nowrap; display: flex; }
+      .sidebar { width: 100%; height: auto; position: static; padding: 12px; overflow-x: auto; }
       .sidebar-logo { display: none; }
       .sidebar-section { display: none; }
-      .sidebar a { display: inline-block; padding: 8px 14px; }
+      .sidebar a { display: inline-flex; padding: 8px 12px; }
       .main { padding: 24px 16px; }
     }
   </style>
 </head>
 <body>
+<!-- Live Financial Ticker Bar across the top -->
+<wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,XRP,AAPL,NVDA,TSLA" currency="USD" speed="28"></wealthy-ticker>
+
 <div class="layout">
 
   <!-- ── Sidebar ── -->
   <nav class="sidebar">
-    <div class="sidebar-logo">
-      <h1>WealthyWidgets</h1>
-      <p>v2.1.0 · Component docs</p>
+    <div class="sidebar-top">
+      <div class="sidebar-logo">
+        <div>
+          <h1>WealthyWidgets</h1>
+          <p>v2.2.0 · anom-developer</p>
+        </div>
+      </div>
+      <div class="sidebar-section">Getting Started</div>
+      <a href="#" data-page="home" class="active">Overview</a>
+      
+      <div class="sidebar-section">Components</div>
+      <a href="#" data-page="button">Button</a>
+      <a href="#" data-page="badge">Badge</a>
+      <a href="#" data-page="input">Input</a>
+      <a href="#" data-page="card">Card</a>
+      <a href="#" data-page="modal">Modal</a>
+      <a href="#" data-page="dropdown">Dropdown</a>
+      <a href="#" data-page="progressbar">ProgressBar</a>
+      <a href="#" data-page="tooltip">Tooltip</a>
+      <a href="#" data-page="toast">Toast</a>
+
+      <div class="sidebar-section">Interactive Widgets</div>
+      <a href="#" data-page="activitywidget">ActivityWidget ✦</a>
+      <a href="#" data-page="weatherwidget">WeatherWidget ✦</a>
+      <a href="#" data-page="codewidget">CodeWidget ✦</a>
+      <a href="#" data-page="financewidget">FinanceWidget ✦ <span class="badge-pill-nav">NEW</span></a>
+      <a href="#" data-page="tickerwidget">Ticker Bar ✦ <span class="badge-pill-nav" style="background:#06b6d4;">LIVE</span></a>
+      <a href="#" data-page="studio" style="color:var(--primary); font-weight:700;">Embed Studio 🚀 <span class="badge-pill-nav" style="background:#10b981;">FREE</span></a>
     </div>
-    <div class="sidebar-section">Getting Started</div>
-    <a href="#" data-page="home" class="active">Overview</a>
-    <div class="sidebar-section">Components</div>
-    <a href="#" data-page="button">Button</a>
-    <a href="#" data-page="badge">Badge</a>
-    <a href="#" data-page="input">Input</a>
-    <a href="#" data-page="card">Card</a>
-    <a href="#" data-page="modal">Modal</a>
-    <a href="#" data-page="dropdown">Dropdown</a>
-    <a href="#" data-page="progressbar">ProgressBar</a>
-    <a href="#" data-page="tooltip">Tooltip</a>
-    <a href="#" data-page="toast">Toast</a>
-    <div class="sidebar-section">Widgets</div>
-    <a href="#" data-page="activitywidget">ActivityWidget</a>
-    <a href="#" data-page="weatherwidget">WeatherWidget</a>
-    <a href="#" data-page="codewidget">CodeWidget</a>
+
+    <div class="sidebar-bottom">
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+        <span>🌙</span> <span>Dark Mode</span>
+      </button>
+      <button class="theme-toggle-btn" id="pwa-install-btn" style="display:none;margin-top:8px;background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;border:none;cursor:pointer;" aria-label="Install App">
+        <span>📱</span> <span>Install PWA App</span>
+      </button>
+    </div>
   </nav>
 
   <!-- ── Main content ── -->
@@ -390,53 +754,49 @@
     <div id="home" class="page active">
       <div class="install-banner">
         <h2>WealthyWidgets</h2>
-        <p>12 accessible, customisable React components for rapid UI development.</p>
-        <span class="install-cmd">npm install wealthywidgets</span>
+        <p>13 self-contained, accessible, and AI-ready React UI widgets for modern web applications.</p>
+        <span class="install-cmd">
+          <span>📦</span>
+          <code>git clone https://github.com/anom-developer/wealthywidgets.git</code>
+        </span>
       </div>
       <div class="page-header">
-        <h2>Getting Started</h2>
-        <p>Import components and styles, then use them anywhere in your React app.</p>
+        <h2>Overview & Quick Start</h2>
+        <p>Import components and styles into your project. Zero telemetry, fully typed, ready for production.</p>
       </div>
       <div class="section">
-        <div class="section-title">Installation</div>
-        <div class="code-block"><code><span class="cmt"># 1. Install</span>
-npm install wealthywidgets
+        <div class="section-title">Setup</div>
+        <div class="code-block"><code><span class="cmt"># 1. Clone repository</span>
+git clone https://github.com/anom-developer/wealthywidgets.git
+cd wealthywidgets
 
-<span class="cmt"># 2. Import styles once in your app root</span>
+<span class="cmt"># 2. Install dependencies & build</span>
+pnpm install
+pnpm run build
+
+<span class="cmt"># 3. Import styles & components in your React root</span>
 <span class="kw">import</span> <span class="str">'wealthywidgets/dist/styles.css'</span>;
-
-<span class="cmt"># 3. Use components</span>
-<span class="kw">import</span> { Button, Card, Modal } <span class="kw">from</span> <span class="str">'wealthywidgets'</span>;</code></div>
+<span class="kw">import</span> { Button, Card, ActivityWidget, FinanceWidget } <span class="kw">from</span> <span class="str">'wealthywidgets'</span>;</code></div>
       </div>
-      <div class="section">
-        <div class="section-title">Toast setup (one-time)</div>
-        <div class="code-block"><code><span class="kw">import</span> { ToastProvider } <span class="kw">from</span> <span class="str">'wealthywidgets'</span>;
 
-<span class="kw">function</span> App() {
-  <span class="kw">return</span> (
-    <span class="tag">&lt;ToastProvider</span> <span class="attr">position</span>=<span class="str">"top-right"</span><span class="tag">&gt;</span>
-      <span class="tag">&lt;YourApp</span> <span class="tag">/&gt;</span>
-    <span class="tag">&lt;/ToastProvider&gt;</span>
-  );
-}</code></div>
-      </div>
       <div class="section">
-        <div class="section-title">Components</div>
+        <div class="section-title">Component Catalog</div>
         <table class="prop-table">
-          <thead><tr><th>Component</th><th>Description</th></tr></thead>
+          <thead><tr><th>Component</th><th>Description</th><th>AI Generation</th></tr></thead>
           <tbody>
-            <tr><td><code>Button</code></td><td>6 variants, 5 sizes, loading, icons, pill shape</td></tr>
-            <tr><td><code>Badge</code></td><td>Status labels and dot notification indicators</td></tr>
-            <tr><td><code>Input</code></td><td>Text field with label, icons, hints, validation</td></tr>
-            <tr><td><code>Card</code></td><td>Content container with image, title, actions</td></tr>
-            <tr><td><code>Modal</code></td><td>Accessible dialog with focus management</td></tr>
-            <tr><td><code>Dropdown</code></td><td>Single/multi-select with search</td></tr>
-            <tr><td><code>ProgressBar</code></td><td>Status-coloured progress indicator</td></tr>
-            <tr><td><code>Tooltip</code></td><td>Hover hint, 4 placements, 2 variants</td></tr>
-            <tr><td><code>Toast</code></td><td>App-wide notifications via context</td></tr>
-            <tr><td><code>ActivityWidget</code></td><td>Event timeline with AI feed generation</td></tr>
-            <tr><td><code>WeatherWidget</code></td><td>Weather card with AI data generation</td></tr>
-            <tr><td><code>CodeWidget</code></td><td>Code block with editor and AI snippets</td></tr>
+            <tr><td><code>FinanceWidget</code></td><td>Crypto & stock market tracker with sparkline chart & AI insights</td><td>✦ Yes</td></tr>
+            <tr><td><code>ActivityWidget</code></td><td>Scrollable event timeline with filtering & AI feed generation</td><td>✦ Yes</td></tr>
+            <tr><td><code>WeatherWidget</code></td><td>Live conditions + forecast card with animated gradients</td><td>✦ Yes</td></tr>
+            <tr><td><code>CodeWidget</code></td><td>Code block with syntax highlighting, editor & AI code generator</td><td>✦ Yes</td></tr>
+            <tr><td><code>Input</code></td><td>Text field with label, hint, live validation & AI generator</td><td>✦ Yes</td></tr>
+            <tr><td><code>Button</code></td><td>6 style variants, 5 sizes, loading spinner, pill shape</td><td>—</td></tr>
+            <tr><td><code>Badge</code></td><td>Status tags, pill badges & notification dot counters</td><td>—</td></tr>
+            <tr><td><code>Card</code></td><td>Container with image, title, header extra & action slots</td><td>—</td></tr>
+            <tr><td><code>Modal</code></td><td>Accessible dialog with Escape key, scroll-lock & focus trap</td><td>—</td></tr>
+            <tr><td><code>Dropdown</code></td><td>Custom single/multi-select with search & tag chips</td><td>—</td></tr>
+            <tr><td><code>ProgressBar</code></td><td>Status-coloured progress bar with animated striped fill</td><td>—</td></tr>
+            <tr><td><code>Tooltip</code></td><td>4 directional placements, light/dark themes, hover delays</td><td>—</td></tr>
+            <tr><td><code>Toast</code></td><td>Global notifications with auto-dismiss & 6 screen positions</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
@@ -451,7 +811,7 @@ npm install wealthywidgets
       <div class="section">
         <div class="section-title">Variants</div>
         <div class="example">
-          <div class="example-label">All variants</div>
+          <div class="example-label">All visual variants</div>
           <div class="example-preview">
             <button class="ww-btn ww-btn--primary">Primary</button>
             <button class="ww-btn ww-btn--secondary">Secondary</button>
@@ -461,56 +821,19 @@ npm install wealthywidgets
             <button class="ww-btn ww-btn--success">Success</button>
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Primary<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"secondary"</span><span class="tag">&gt;</span>Secondary<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"outline"</span><span class="tag">&gt;</span>Outline<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span><span class="tag">&gt;</span>Ghost<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"danger"</span><span class="tag">&gt;</span>Danger<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"success"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/Button&gt;</span></code></div>
       </div>
       <div class="section">
-        <div class="section-title">Sizes</div>
+        <div class="section-title">Interactive Loading & Pill States</div>
         <div class="example">
-          <div class="example-label">xs → xl</div>
+          <div class="example-label">Click button below to test live loading spinner</div>
           <div class="example-preview" style="align-items:center;">
-            <button class="ww-btn ww-btn--primary ww-btn--xs">XSmall</button>
-            <button class="ww-btn ww-btn--primary ww-btn--sm">Small</button>
-            <button class="ww-btn ww-btn--primary">Medium</button>
-            <button class="ww-btn ww-btn--primary ww-btn--lg">Large</button>
-            <button class="ww-btn ww-btn--primary ww-btn--xl">XLarge</button>
+            <button class="ww-btn ww-btn--primary" id="btn-test-loader" onclick="demoButtonLoading(this)">
+              Click to Test Loading
+            </button>
+            <button class="ww-btn ww-btn--primary ww-btn--rounded">Pill Button</button>
+            <button class="ww-btn ww-btn--secondary" disabled>Disabled State</button>
           </div>
         </div>
-      </div>
-      <div class="section">
-        <div class="section-title">States</div>
-        <div class="example">
-          <div class="example-label">Loading / Disabled / Rounded / Full width</div>
-          <div class="example-preview column" style="max-width:260px;">
-            <button class="ww-btn ww-btn--primary ww-btn--loading">Saving…</button>
-            <button class="ww-btn ww-btn--primary" disabled>Disabled</button>
-            <button class="ww-btn ww-btn--primary ww-btn--rounded">Pill button</button>
-            <button class="ww-btn ww-btn--primary ww-btn--full">Full width</button>
-          </div>
-        </div>
-        <div class="code-block"><code><span class="tag">&lt;Button</span> <span class="attr">loading</span><span class="tag">&gt;</span>Saving…<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">disabled</span><span class="tag">&gt;</span>Disabled<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">rounded</span><span class="tag">&gt;</span>Pill button<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">fullWidth</span><span class="tag">&gt;</span>Full width<span class="tag">&lt;/Button&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>variant</code></td><td><code>ButtonVariant</code></td><td><code>'primary'</code></td><td>Visual style</td></tr>
-            <tr><td><code>size</code></td><td><code>ButtonSize</code></td><td><code>'md'</code></td><td>xs · sm · md · lg · xl</td></tr>
-            <tr><td><code>loading</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows spinner, disables click</td></tr>
-            <tr><td><code>rounded</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Pill shape</td></tr>
-            <tr><td><code>fullWidth</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Stretches to container</td></tr>
-            <tr><td><code>leftIcon</code></td><td><code>ReactNode</code></td><td>—</td><td>Icon before label</td></tr>
-            <tr><td><code>rightIcon</code></td><td><code>ReactNode</code></td><td>—</td><td>Icon after label</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -521,63 +844,18 @@ npm install wealthywidgets
         <p>Compact label for status, category, or notification count indicators.</p>
       </div>
       <div class="section">
-        <div class="section-title">Variants</div>
+        <div class="section-title">Variants & Pills</div>
         <div class="example">
-          <div class="example-label">All variants</div>
+          <div class="example-label">Status badges</div>
           <div class="example-preview">
-            <span class="ww-badge ww-badge--default">Default</span>
             <span class="ww-badge ww-badge--primary">Primary</span>
-            <span class="ww-badge ww-badge--success">Success</span>
-            <span class="ww-badge ww-badge--warning">Warning</span>
-            <span class="ww-badge ww-badge--danger">Danger</span>
-            <span class="ww-badge ww-badge--info">Info</span>
-          </div>
-        </div>
-        <div class="example">
-          <div class="example-label">Pill shape</div>
-          <div class="example-preview">
-            <span class="ww-badge ww-badge--primary ww-badge--pill">New</span>
             <span class="ww-badge ww-badge--success ww-badge--pill">Active</span>
+            <span class="ww-badge ww-badge--warning">Pending</span>
             <span class="ww-badge ww-badge--danger ww-badge--pill">Critical</span>
-            <span class="ww-badge ww-badge--warning ww-badge--pill">Beta</span>
+            <span class="ww-badge ww-badge--info">Update</span>
+            <span class="ww-badge ww-badge--default">Default</span>
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;Badge</span> <span class="attr">variant</span>=<span class="str">"success"</span><span class="tag">&gt;</span>Success<span class="tag">&lt;/Badge&gt;</span>
-<span class="tag">&lt;Badge</span> <span class="attr">variant</span>=<span class="str">"danger"</span> <span class="attr">pill</span><span class="tag">&gt;</span>Critical<span class="tag">&lt;/Badge&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">In context</div>
-        <div class="example">
-          <div class="example-label">Issue tracker</div>
-          <div class="example-preview column" style="max-width:320px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;">
-              <span style="font-size:14px;">Feature Request</span>
-              <span class="ww-badge ww-badge--info ww-badge--sm">Open</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;">
-              <span style="font-size:14px;">Critical Bug</span>
-              <span class="ww-badge ww-badge--danger ww-badge--sm ww-badge--pill">Critical</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;">
-              <span style="font-size:14px;">Dark Mode</span>
-              <span class="ww-badge ww-badge--success ww-badge--sm">Done</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>variant</code></td><td><code>BadgeVariant</code></td><td><code>'default'</code></td><td>Colour theme</td></tr>
-            <tr><td><code>size</code></td><td><code>BadgeSize</code></td><td><code>'md'</code></td><td>sm · md · lg</td></tr>
-            <tr><td><code>pill</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Fully rounded shape</td></tr>
-            <tr><td><code>dot</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Notification dot wrapper mode</td></tr>
-            <tr><td><code>count</code></td><td><code>number</code></td><td>—</td><td>Number in the dot</td></tr>
-            <tr><td><code>max</code></td><td><code>number</code></td><td><code>99</code></td><td>Cap — shows 99+ when exceeded</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -585,71 +863,24 @@ npm install wealthywidgets
     <div id="input" class="page">
       <div class="page-header">
         <h2>Input</h2>
-        <p>Text field with label, icons, hint, validation states, and optional AI generation.</p>
+        <p>Text field with label, icons, hint, live validation states, and inline AI prompt generator.</p>
       </div>
       <div class="section">
-        <div class="section-title">Basic</div>
+        <div class="section-title">Live Validation Playground</div>
         <div class="example">
-          <div class="example-label">Default / With hint / Required</div>
+          <div class="example-label">Type to see instant validation feedback</div>
           <div class="example-preview column">
             <div class="ww-field">
-              <label class="ww-label">Email address</label>
-              <div class="ww-input-wrap"><input class="ww-input" type="email" placeholder="you@example.com" /></div>
-            </div>
-            <div class="ww-field">
-              <label class="ww-label">Password</label>
-              <div class="ww-input-wrap"><input class="ww-input" type="password" placeholder="••••••••" /></div>
-              <span class="ww-hint">Must be at least 8 characters</span>
-            </div>
-            <div class="ww-field">
-              <label class="ww-label ww-label--required">Full name</label>
-              <div class="ww-input-wrap"><input class="ww-input" placeholder="Jane Smith" /></div>
+              <label class="ww-label ww-label--required">Email Address</label>
+              <div class="ww-input-wrap">
+                <input class="ww-input" id="demo-validate-input" type="email" placeholder="user@domain.com" oninput="handleDemoInputValidation(this.value)" />
+                <button type="button" class="ww-input-ai-btn" onclick="demoAiInputSuggest()" title="AI Suggest Email">✦</button>
+              </div>
+              <span class="ww-msg" id="demo-input-feedback" style="display:none;"></span>
+              <span class="ww-hint">Click ✦ icon on the right for AI generation</span>
             </div>
           </div>
         </div>
-      </div>
-      <div class="section">
-        <div class="section-title">Validation states</div>
-        <div class="example">
-          <div class="example-label">Error / Success / Disabled</div>
-          <div class="example-preview column">
-            <div class="ww-field">
-              <label class="ww-label">Username</label>
-              <div class="ww-input-wrap"><input class="ww-input ww-input--error" value="john_doe" /></div>
-              <span class="ww-msg ww-msg--error">This username is already taken</span>
-            </div>
-            <div class="ww-field">
-              <label class="ww-label">Username</label>
-              <div class="ww-input-wrap"><input class="ww-input ww-input--success" value="cooluser_42" /></div>
-              <span class="ww-msg ww-msg--success">Username is available!</span>
-            </div>
-            <div class="ww-field">
-              <label class="ww-label">Account ID</label>
-              <div class="ww-input-wrap"><input class="ww-input" value="ACC-00123" disabled /></div>
-            </div>
-          </div>
-        </div>
-        <div class="code-block"><code><span class="tag">&lt;Input</span> <span class="attr">label</span>=<span class="str">"Username"</span> <span class="attr">status</span>=<span class="str">"error"</span>
-       <span class="attr">message</span>=<span class="str">"This username is already taken"</span> <span class="tag">/&gt;</span>
-<span class="tag">&lt;Input</span> <span class="attr">label</span>=<span class="str">"Username"</span> <span class="attr">status</span>=<span class="str">"success"</span>
-       <span class="attr">message</span>=<span class="str">"Username is available!"</span> <span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>label</code></td><td><code>string</code></td><td>—</td><td>Field label</td></tr>
-            <tr><td><code>hint</code></td><td><code>string</code></td><td>—</td><td>Helper text below input</td></tr>
-            <tr><td><code>status</code></td><td><code>InputStatus</code></td><td><code>'default'</code></td><td>default · error · success · warning</td></tr>
-            <tr><td><code>message</code></td><td><code>string</code></td><td>—</td><td>Validation message</td></tr>
-            <tr><td><code>size</code></td><td><code>InputSize</code></td><td><code>'md'</code></td><td>sm · md · lg</td></tr>
-            <tr><td><code>leftIcon</code></td><td><code>ReactNode</code></td><td>—</td><td>Icon inside left edge</td></tr>
-            <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Asterisk on label + aria-required</td></tr>
-            <tr><td><code>fullWidth</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Stretches to container</td></tr>
-            <tr><td><code>onAiGenerate</code></td><td><code>(v: string) => Promise&lt;string&gt;</code></td><td>—</td><td>Adds ✦ AI button</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -662,62 +893,18 @@ npm install wealthywidgets
       <div class="section">
         <div class="section-title">Variants</div>
         <div class="example">
-          <div class="example-label">Default / Elevated / Outlined</div>
+          <div class="example-label">Elevated & Clickable Cards</div>
           <div class="example-preview" style="align-items:stretch;">
-            <div class="ww-card" style="width:220px;">
+            <div class="ww-card ww-card--clickable" style="width:260px;" onclick="showToast('info','Card Clicked','You clicked WealthyWidgets Card!')">
               <div class="ww-card__body">
-                <div class="ww-card__title">Getting Started</div>
-                <div class="ww-card__sub">Documentation</div>
-                <div class="ww-card__desc">Learn how to install and use WealthyWidgets.</div>
-                <div class="ww-card__actions"><button class="ww-btn ww-btn--primary ww-btn--sm">Read more</button></div>
-              </div>
-            </div>
-            <div class="ww-card ww-card--elevated" style="width:220px;">
-              <div class="ww-card__body">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                  <div>
-                    <div class="ww-card__title">Premium Plan</div>
-                    <div class="ww-card__sub">$49 / month</div>
-                  </div>
-                  <span class="ww-badge ww-badge--primary ww-badge--pill ww-badge--sm">Popular</span>
-                </div>
-                <div class="ww-card__desc">Unlimited projects and priority support.</div>
-                <button class="ww-btn ww-btn--primary ww-btn--full">Upgrade Now</button>
-              </div>
-            </div>
-            <div class="ww-card ww-card--outlined" style="width:220px;">
-              <div class="ww-card__body">
-                <div class="ww-card__title">API Reference</div>
-                <div class="ww-card__desc">Complete TypeScript definitions and examples.</div>
-                <div class="ww-card__actions"><button class="ww-btn ww-btn--outline ww-btn--sm">Open Docs</button></div>
+                <div class="ww-card__title">Interactive Card</div>
+                <div class="ww-card__sub">Hover & Click Demo</div>
+                <div class="ww-card__desc">Cards support full hover elevation, click triggers, and action buttons.</div>
+                <button class="ww-btn ww-btn--primary ww-btn--sm">Explore</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;Card</span> <span class="attr">variant</span>=<span class="str">"elevated"</span>
-     <span class="attr">title</span>=<span class="str">"Premium Plan"</span>
-     <span class="attr">subtitle</span>=<span class="str">"$49 / month"</span>
-     <span class="attr">headerExtra</span>={<span class="tag">&lt;Badge</span> <span class="attr">variant</span>=<span class="str">"primary"</span> <span class="attr">pill</span><span class="tag">&gt;</span>Popular<span class="tag">&lt;/Badge&gt;</span>}
-     <span class="attr">actions</span>={<span class="tag">&lt;Button</span> <span class="attr">fullWidth</span><span class="tag">&gt;</span>Upgrade Now<span class="tag">&lt;/Button&gt;</span>}
-<span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>variant</code></td><td><code>CardVariant</code></td><td><code>'default'</code></td><td>default · elevated · outlined</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>—</td><td>Card heading</td></tr>
-            <tr><td><code>subtitle</code></td><td><code>string</code></td><td>—</td><td>Secondary text below title</td></tr>
-            <tr><td><code>description</code></td><td><code>string</code></td><td>—</td><td>Body text</td></tr>
-            <tr><td><code>imageSrc</code></td><td><code>string</code></td><td>—</td><td>Top image URL</td></tr>
-            <tr><td><code>imageAspectRatio</code></td><td><code>string</code></td><td><code>'16/9'</code></td><td>Aspect ratio for image</td></tr>
-            <tr><td><code>actions</code></td><td><code>ReactNode</code></td><td>—</td><td>Button row at the bottom</td></tr>
-            <tr><td><code>headerExtra</code></td><td><code>ReactNode</code></td><td>—</td><td>Slot next to the title (e.g. Badge)</td></tr>
-            <tr><td><code>clickable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Hover lift effect</td></tr>
-            <tr><td><code>noPadding</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Removes body padding</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -728,48 +915,14 @@ npm install wealthywidgets
         <p>Accessible dialog with focus management, Escape key, backdrop click, and Portal rendering.</p>
       </div>
       <div class="section">
-        <div class="section-title">Demo</div>
+        <div class="section-title">Interactive Demo</div>
         <div class="example">
-          <div class="example-label">Click to open</div>
+          <div class="example-label">Click to trigger modal dialog</div>
           <div class="example-preview">
-            <button class="ww-btn ww-btn--primary" onclick="document.getElementById('demo-modal').classList.remove('hidden')">Open Modal</button>
-            <button class="ww-btn ww-btn--outline" onclick="document.getElementById('demo-modal-simple').classList.remove('hidden')">Content Only</button>
+            <button class="ww-btn ww-btn--primary" onclick="document.getElementById('demo-modal').classList.remove('hidden')">Open Confirm Modal</button>
+            <button class="ww-btn ww-btn--outline" onclick="document.getElementById('demo-modal-simple').classList.remove('hidden')">Open Content Modal</button>
           </div>
         </div>
-        <div class="code-block"><code><span class="kw">const</span> [open, setOpen] = useState(<span class="kw">false</span>);
-
-<span class="tag">&lt;Button</span> <span class="attr">onClick</span>={() => setOpen(<span class="kw">true</span>)}<span class="tag">&gt;</span>Open Modal<span class="tag">&lt;/Button&gt;</span>
-
-<span class="tag">&lt;Modal</span>
-  <span class="attr">isOpen</span>={open}
-  <span class="attr">onClose</span>={() => setOpen(<span class="kw">false</span>)}
-  <span class="attr">title</span>=<span class="str">"Confirm Action"</span>
-  <span class="attr">description</span>=<span class="str">"This will permanently delete your data."</span>
-  <span class="attr">footer</span>={
-    <span class="tag">&lt;&gt;</span>
-      <span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">onClick</span>={onClose}<span class="tag">&gt;</span>Cancel<span class="tag">&lt;/Button&gt;</span>
-      <span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"danger"</span> <span class="attr">onClick</span>={handleDelete}<span class="tag">&gt;</span>Delete<span class="tag">&lt;/Button&gt;</span>
-    <span class="tag">&lt;/&gt;</span>
-  }
-<span class="tag">&gt;</span>
-  Are you sure you want to delete <span class="tag">&lt;strong&gt;</span>Project Alpha<span class="tag">&lt;/strong&gt;</span>?
-<span class="tag">&lt;/Modal&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>isOpen</code></td><td><code>boolean</code></td><td>—</td><td>Controls visibility</td></tr>
-            <tr><td><code>onClose</code></td><td><code>() => void</code></td><td>—</td><td>Called on Escape / backdrop / ✕</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>—</td><td>Dialog heading</td></tr>
-            <tr><td><code>description</code></td><td><code>string</code></td><td>—</td><td>Subtitle below title</td></tr>
-            <tr><td><code>footer</code></td><td><code>ReactNode</code></td><td>—</td><td>Action buttons row</td></tr>
-            <tr><td><code>size</code></td><td><code>ModalSize</code></td><td><code>'md'</code></td><td>sm · md · lg · xl · full</td></tr>
-            <tr><td><code>disableBackdropClose</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Prevent closing on backdrop click</td></tr>
-            <tr><td><code>hideCloseButton</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Hide the ✕ button</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -777,68 +930,61 @@ npm install wealthywidgets
     <div id="dropdown" class="page">
       <div class="page-header">
         <h2>Dropdown</h2>
-        <p>Single and multi-select dropdown with optional search and keyboard navigation.</p>
+        <p>Custom single and multi-select dropdown with instant search filter, tag removal, and keyboard accessibility.</p>
       </div>
       <div class="section">
-        <div class="section-title">Examples</div>
+        <div class="section-title">Live Custom Dropdowns</div>
         <div class="example">
-          <div class="example-label">Single select / With search / Multi-select</div>
-          <div class="example-preview">
-            <div class="ww-select-wrap">
-              <label class="ww-select-label">Framework</label>
-              <select class="ww-select-trigger">
-                <option value="">Choose a framework…</option>
-                <option>React</option>
-                <option>Vue</option>
-                <option>Svelte</option>
-                <option>Angular</option>
-              </select>
+          <div class="example-label">Interactive Single-Select & Multi-Select with Tags</div>
+          <div class="example-preview" style="gap:28px;">
+            
+            <!-- Single Select -->
+            <div class="ww-dropdown-custom" id="single-dropdown-wrap">
+              <label class="ww-dropdown-label">Framework (Single Select)</label>
+              <div class="ww-dropdown-trigger" id="single-dropdown-trigger" onclick="toggleDropdown('single-dropdown')">
+                <span id="single-dropdown-val">Select Framework…</span>
+                <span class="ww-dropdown-arrow" id="single-dropdown-arrow">▼</span>
+              </div>
+              <div class="ww-dropdown-menu" id="single-dropdown-menu">
+                <div class="ww-dropdown-search-box">
+                  <input type="text" class="ww-dropdown-search-input" placeholder="Search frameworks…" oninput="filterDropdownOpts('single-dropdown', this.value)" />
+                </div>
+                <ul class="ww-dropdown-options-list" id="single-dropdown-list">
+                  <li class="ww-dropdown-opt" onclick="selectSingleOpt('React')"><span>React</span></li>
+                  <li class="ww-dropdown-opt" onclick="selectSingleOpt('Vue.js')"><span>Vue.js</span></li>
+                  <li class="ww-dropdown-opt" onclick="selectSingleOpt('Next.js')"><span>Next.js</span></li>
+                  <li class="ww-dropdown-opt" onclick="selectSingleOpt('Svelte')"><span>Svelte</span></li>
+                  <li class="ww-dropdown-opt" onclick="selectSingleOpt('Angular')"><span>Angular</span></li>
+                </ul>
+              </div>
             </div>
-            <div class="ww-select-wrap">
-              <label class="ww-select-label">Language</label>
-              <select class="ww-select-trigger">
-                <option value="">Search languages…</option>
-                <option>TypeScript</option>
-                <option>JavaScript</option>
-                <option>Python</option>
-                <option>Rust</option>
-                <option>Go</option>
-                <option disabled>C++ (disabled)</option>
-              </select>
+
+            <!-- Multi Select with Tags -->
+            <div class="ww-dropdown-custom" id="multi-dropdown-wrap">
+              <label class="ww-dropdown-label">Technologies (Multi-Select Tags)</label>
+              <div class="ww-dropdown-trigger" id="multi-dropdown-trigger" onclick="toggleDropdown('multi-dropdown')">
+                <div class="ww-dropdown-tags" id="multi-dropdown-tags">
+                  <span class="ww-dropdown-tag">TypeScript <span class="ww-dropdown-tag-del" onclick="removeMultiTag('TypeScript', event)">✕</span></span>
+                  <span class="ww-dropdown-tag">SCSS <span class="ww-dropdown-tag-del" onclick="removeMultiTag('SCSS', event)">✕</span></span>
+                </div>
+                <span class="ww-dropdown-arrow" id="multi-dropdown-arrow">▼</span>
+              </div>
+              <div class="ww-dropdown-menu" id="multi-dropdown-menu">
+                <div class="ww-dropdown-search-box">
+                  <input type="text" class="ww-dropdown-search-input" placeholder="Filter skills…" oninput="filterDropdownOpts('multi-dropdown', this.value)" />
+                </div>
+                <ul class="ww-dropdown-options-list" id="multi-dropdown-list">
+                  <li class="ww-dropdown-opt selected" onclick="toggleMultiOpt('TypeScript')"><span>TypeScript</span> <span>✓</span></li>
+                  <li class="ww-dropdown-opt selected" onclick="toggleMultiOpt('SCSS')"><span>SCSS</span> <span>✓</span></li>
+                  <li class="ww-dropdown-opt" onclick="toggleMultiOpt('GraphQL')"><span>GraphQL</span></li>
+                  <li class="ww-dropdown-opt" onclick="toggleMultiOpt('Docker')"><span>Docker</span></li>
+                  <li class="ww-dropdown-opt" onclick="toggleMultiOpt('Jest')"><span>Jest</span></li>
+                </ul>
+              </div>
             </div>
+
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;Dropdown</span>
-  <span class="attr">label</span>=<span class="str">"Framework"</span>
-  <span class="attr">options</span>={[{ value: <span class="str">'react'</span>, label: <span class="str">'React'</span> }, ...]}
-  <span class="attr">value</span>={val}
-  <span class="attr">onChange</span>={(v) => setVal(v <span class="kw">as</span> string)}
-<span class="tag">/&gt;</span>
-
-<span class="cmt">// Multi-select with search</span>
-<span class="tag">&lt;Dropdown</span>
-  <span class="attr">label</span>=<span class="str">"Skills"</span>
-  <span class="attr">multiple</span> <span class="attr">searchable</span>
-  <span class="attr">options</span>={skillOptions}
-  <span class="attr">value</span>={skills}
-  <span class="attr">onChange</span>={(v) => setSkills(v <span class="kw">as</span> string[])}
-<span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>options</code></td><td><code>DropdownOption[]</code></td><td>—</td><td>List of options</td></tr>
-            <tr><td><code>value</code></td><td><code>string | string[]</code></td><td>—</td><td>Selected value(s)</td></tr>
-            <tr><td><code>onChange</code></td><td><code>(v) => void</code></td><td>—</td><td>Called on selection</td></tr>
-            <tr><td><code>multiple</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Multi-select mode with tags</td></tr>
-            <tr><td><code>searchable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows search field in menu</td></tr>
-            <tr><td><code>placeholder</code></td><td><code>string</code></td><td><code>'Select…'</code></td><td>Placeholder text</td></tr>
-            <tr><td><code>label</code></td><td><code>string</code></td><td>—</td><td>Field label</td></tr>
-            <tr><td><code>fullWidth</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Stretches to container</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -846,53 +992,38 @@ npm install wealthywidgets
     <div id="progressbar" class="page">
       <div class="page-header">
         <h2>ProgressBar</h2>
-        <p>Status-coloured progress indicator with label positions, striped mode, and mount animation.</p>
+        <p>Status-coloured progress indicator with label positions, striped mode, and real-time animation.</p>
       </div>
       <div class="section">
-        <div class="section-title">Statuses</div>
+        <div class="section-title">Live Interactive Controller</div>
         <div class="example">
-          <div class="example-label">danger / warning / info / success</div>
-          <div class="example-preview column">
-            <div class="pb-row"><div class="ww-progress"><div class="ww-progress__header"><span>Disk usage</span><span>90%</span></div><div class="ww-progress__track"><div class="ww-progress__fill ww-progress__fill--danger" style="width:90%"></div></div></div></div>
-            <div class="pb-row"><div class="ww-progress"><div class="ww-progress__header"><span>Memory</span><span>60%</span></div><div class="ww-progress__track"><div class="ww-progress__fill ww-progress__fill--warning" style="width:60%"></div></div></div></div>
-            <div class="pb-row"><div class="ww-progress"><div class="ww-progress__header"><span>Downloading</span><span>45%</span></div><div class="ww-progress__track"><div class="ww-progress__fill ww-progress__fill--info" style="width:45%"></div></div></div></div>
-            <div class="pb-row"><div class="ww-progress"><div class="ww-progress__header"><span>Backup</span><span>100%</span></div><div class="ww-progress__track"><div class="ww-progress__fill ww-progress__fill--success" style="width:100%"></div></div></div></div>
+          <div class="example-label">Adjust slider or click buttons to test progress animations</div>
+          <div class="example-preview column" style="gap:20px;">
+            <div class="ww-progress">
+              <div class="ww-progress__header">
+                <span id="pb-live-title">System Task Progress</span>
+                <span id="pb-live-pct">65%</span>
+              </div>
+              <div class="ww-progress__track ww-progress__track--lg">
+                <div class="ww-progress__fill ww-progress__fill--default ww-progress__fill--striped" id="pb-live-fill" style="width: 65%;"></div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <input type="range" min="0" max="100" value="65" id="pb-slider" style="width:160px; cursor:pointer;" oninput="updateLiveProgress(this.value)" />
+              <button class="ww-btn ww-btn--secondary ww-btn--sm" onclick="stepLiveProgress(-10)">-10%</button>
+              <button class="ww-btn ww-btn--secondary ww-btn--sm" onclick="stepLiveProgress(10)">+10%</button>
+              <button class="ww-btn ww-btn--primary ww-btn--sm" onclick="animateLiveProgress()">Animate from 0%</button>
+              <select id="pb-status-select" onchange="changeLiveProgressStatus(this.value)" style="padding:6px 10px; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                <option value="default">Primary Status</option>
+                <option value="success">Success (Green)</option>
+                <option value="warning">Warning (Amber)</option>
+                <option value="danger">Danger (Red)</option>
+                <option value="info">Info (Blue)</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;ProgressBar</span> <span class="attr">value</span>={90} <span class="attr">status</span>=<span class="str">"danger"</span>  <span class="attr">title</span>=<span class="str">"Disk usage"</span>  <span class="attr">showLabel</span> <span class="tag">/&gt;</span>
-<span class="tag">&lt;ProgressBar</span> <span class="attr">value</span>={60} <span class="attr">status</span>=<span class="str">"warning"</span> <span class="attr">title</span>=<span class="str">"Memory"</span>      <span class="attr">showLabel</span> <span class="tag">/&gt;</span>
-<span class="tag">&lt;ProgressBar</span> <span class="attr">value</span>={45} <span class="attr">status</span>=<span class="str">"info"</span>    <span class="attr">title</span>=<span class="str">"Downloading"</span> <span class="attr">showLabel</span> <span class="tag">/&gt;</span>
-<span class="tag">&lt;ProgressBar</span> <span class="attr">value</span>={100} <span class="attr">status</span>=<span class="str">"success"</span> <span class="attr">title</span>=<span class="str">"Backup"</span>     <span class="attr">showLabel</span> <span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Sizes</div>
-        <div class="example">
-          <div class="example-label">xs / sm / md / lg</div>
-          <div class="example-preview column">
-            <div class="ww-progress"><div class="ww-progress__header"><span>XSmall</span></div><div class="ww-progress__track ww-progress__track--xs"><div class="ww-progress__fill ww-progress__fill--default" style="width:60%"></div></div></div>
-            <div class="ww-progress"><div class="ww-progress__header"><span>Small</span></div><div class="ww-progress__track ww-progress__track--sm"><div class="ww-progress__fill ww-progress__fill--default" style="width:60%"></div></div></div>
-            <div class="ww-progress"><div class="ww-progress__header"><span>Medium</span></div><div class="ww-progress__track"><div class="ww-progress__fill ww-progress__fill--default" style="width:60%"></div></div></div>
-            <div class="ww-progress"><div class="ww-progress__header"><span>Large</span></div><div class="ww-progress__track ww-progress__track--lg"><div class="ww-progress__fill ww-progress__fill--default" style="width:60%"></div></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>value</code></td><td><code>number</code></td><td>—</td><td>Current value (0–max)</td></tr>
-            <tr><td><code>max</code></td><td><code>number</code></td><td><code>100</code></td><td>Maximum value</td></tr>
-            <tr><td><code>status</code></td><td><code>ProgressBarStatus</code></td><td><code>'default'</code></td><td>default · success · warning · danger · info</td></tr>
-            <tr><td><code>size</code></td><td><code>ProgressBarSize</code></td><td><code>'md'</code></td><td>xs · sm · md · lg</td></tr>
-            <tr><td><code>showLabel</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Show percentage label</td></tr>
-            <tr><td><code>labelPosition</code></td><td><code>string</code></td><td><code>'right'</code></td><td>right · top · inside</td></tr>
-            <tr><td><code>striped</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Diagonal stripe pattern</td></tr>
-            <tr><td><code>animated</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Animate fill from 0 on mount</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>—</td><td>Label above the bar</td></tr>
-            <tr><td><code>formatLabel</code></td><td><code>(v, max) => string</code></td><td>—</td><td>Custom label format</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -903,9 +1034,9 @@ npm install wealthywidgets
         <p>Hover/focus hint with 4 placements, 2 variants, and configurable delays.</p>
       </div>
       <div class="section">
-        <div class="section-title">Placements</div>
+        <div class="section-title">Placements Demo</div>
         <div class="example">
-          <div class="example-label">Hover over the buttons</div>
+          <div class="example-label">Hover over buttons</div>
           <div class="example-preview center" style="gap:24px; padding: 48px 24px;">
             <div class="ww-tip-wrap"><button class="ww-btn ww-btn--outline">Top</button><span class="ww-tip-bubble">Top tooltip</span></div>
             <div class="ww-tip-wrap" style="position:relative;">
@@ -913,37 +1044,11 @@ npm install wealthywidgets
               <span class="ww-tip-bubble" style="top: calc(100% + 8px); bottom:auto;">Bottom tooltip</span>
             </div>
             <div class="ww-tip-wrap" style="position:relative;">
-              <button class="ww-btn ww-btn--outline">Right</button>
-              <span class="ww-tip-bubble" style="left: calc(100% + 8px); right:auto; top:50%; bottom:auto; transform:translateY(-50%);">Right tooltip</span>
-            </div>
-            <div class="ww-tip-wrap" style="position:relative;">
-              <button class="ww-btn ww-btn--outline">Light</button>
-              <span class="ww-tip-bubble ww-tip-bubble--light">Light variant</span>
+              <button class="ww-btn ww-btn--outline">Light Variant</button>
+              <span class="ww-tip-bubble ww-tip-bubble--light">Light theme tooltip</span>
             </div>
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;Tooltip</span> <span class="attr">content</span>=<span class="str">"Top tooltip"</span> <span class="attr">placement</span>=<span class="str">"top"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;Button&gt;</span>Hover me<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;/Tooltip&gt;</span>
-
-<span class="tag">&lt;Tooltip</span> <span class="attr">content</span>=<span class="str">"Light variant"</span> <span class="attr">variant</span>=<span class="str">"light"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;Button&gt;</span>Light<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;/Tooltip&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>content</code></td><td><code>ReactNode</code></td><td>—</td><td>Tooltip content</td></tr>
-            <tr><td><code>placement</code></td><td><code>TooltipPlacement</code></td><td><code>'top'</code></td><td>top · bottom · left · right</td></tr>
-            <tr><td><code>variant</code></td><td><code>TooltipVariant</code></td><td><code>'dark'</code></td><td>dark · light</td></tr>
-            <tr><td><code>showDelay</code></td><td><code>number</code></td><td><code>300</code></td><td>ms before showing</td></tr>
-            <tr><td><code>hideDelay</code></td><td><code>number</code></td><td><code>100</code></td><td>ms before hiding</td></tr>
-            <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables tooltip</td></tr>
-            <tr><td><code>maxWidth</code></td><td><code>number</code></td><td><code>240</code></td><td>Max width in px</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -954,49 +1059,17 @@ npm install wealthywidgets
         <p>App-wide notifications via React Context. Wrap your app with <code>&lt;ToastProvider&gt;</code>, call <code>useToast()</code> anywhere inside.</p>
       </div>
       <div class="section">
-        <div class="section-title">Demo</div>
+        <div class="section-title">Trigger Live Notifications</div>
         <div class="example">
-          <div class="example-label">Click to trigger toasts</div>
+          <div class="example-label">Click buttons to stack toasts</div>
           <div class="example-preview">
-            <button class="ww-btn ww-btn--success ww-btn--sm" onclick="showToast('success','Saved!','Changes have been saved.')">Success</button>
-            <button class="ww-btn ww-btn--secondary ww-btn--sm" onclick="showToast('info','Info','Sync started in background.')">Info</button>
-            <button class="ww-btn ww-btn--secondary ww-btn--sm" onclick="showToast('warning','Warning','Session expires in 5 min.')">Warning</button>
-            <button class="ww-btn ww-btn--danger ww-btn--sm"   onclick="showToast('danger','Error','Connection lost. Retrying…')">Error</button>
-            <button class="ww-btn ww-btn--ghost ww-btn--sm"    onclick="clearToasts()">Clear all</button>
+            <button class="ww-btn ww-btn--success ww-btn--sm" onclick="showToast('success','Operation Successful','Changes have been saved to database.')">Success</button>
+            <button class="ww-btn ww-btn--info ww-btn--sm" onclick="showToast('info','Synchronization Started','Background worker is fetching new data.')">Info</button>
+            <button class="ww-btn ww-btn--secondary ww-btn--sm" onclick="showToast('warning','Session Expiring','You will be logged out in 5 minutes.')">Warning</button>
+            <button class="ww-btn ww-btn--danger ww-btn--sm" onclick="showToast('danger','API Connection Timeout','Failed to reach websocket server.')">Error</button>
+            <button class="ww-btn ww-btn--ghost ww-btn--sm" onclick="clearToasts()">Clear all</button>
           </div>
         </div>
-        <div class="code-block"><code><span class="cmt">// Wrap app once</span>
-<span class="tag">&lt;ToastProvider</span> <span class="attr">position</span>=<span class="str">"top-right"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;App</span> <span class="tag">/&gt;</span>
-<span class="tag">&lt;/ToastProvider&gt;</span>
-
-<span class="cmt">// Use anywhere inside</span>
-<span class="kw">const</span> { toast } = useToast();
-toast({ <span class="attr">message</span>: <span class="str">'Saved!'</span>, <span class="attr">variant</span>: <span class="str">'success'</span> });
-toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span class="attr">message</span>: <span class="str">'Connection lost.'</span>, <span class="attr">variant</span>: <span class="str">'danger'</span>, <span class="attr">duration</span>: 0 });</code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">ToastProvider props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>position</code></td><td><code>ToastPosition</code></td><td><code>'top-right'</code></td><td>top-right · top-left · top-center · bottom-right · bottom-left · bottom-center</td></tr>
-            <tr><td><code>defaultDuration</code></td><td><code>number</code></td><td><code>4000</code></td><td>Auto-dismiss in ms. <code>0</code> = manual only</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="section">
-        <div class="section-title">toast() options</div>
-        <table class="prop-table">
-          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>message</code></td><td><code>ReactNode</code></td><td>Toast body (required)</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>Bold heading above message</td></tr>
-            <tr><td><code>variant</code></td><td><code>ToastVariant</code></td><td>default · success · warning · danger · info</td></tr>
-            <tr><td><code>duration</code></td><td><code>number</code></td><td>Override default. <code>0</code> = no auto-dismiss</td></tr>
-            <tr><td><code>icon</code></td><td><code>ReactNode</code></td><td>Replace default variant icon</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -1004,91 +1077,44 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
     <div id="activitywidget" class="page">
       <div class="page-header">
         <h2>ActivityWidget ✦</h2>
-        <p>Scrollable event timeline with status dots, relative timestamps, and optional AI-powered feed generation.</p>
+        <p>Scrollable event timeline with status dots, relative timestamps, category filtering, and live AI feed generation.</p>
       </div>
       <div class="section">
-        <div class="section-title">Preview</div>
+        <div class="section-title">Live Interactive Activity Feed</div>
         <div class="example">
-          <div class="example-label">Recent Activity feed</div>
+          <div class="example-label">Full working widget: filter categories or generate events with AI</div>
           <div class="example-preview column" style="padding:24px;">
-            <div style="background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:20px;max-width:420px;width:100%;">
-              <div style="font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:16px;">Recent Activity</div>
-              <div style="display:flex;flex-direction:column;gap:0;">
-                <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);">
-                  <div style="width:8px;height:8px;border-radius:50%;background:var(--success);margin-top:5px;flex-shrink:0;"></div>
-                  <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--gray-800);">PR #142 merged</div><div style="font-size:12px;color:var(--gray-400);">feat: add dark mode support</div></div>
-                  <div style="font-size:12px;color:var(--gray-400);">3m ago</div>
-                </div>
-                <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);">
-                  <div style="width:8px;height:8px;border-radius:50%;background:var(--danger);margin-top:5px;flex-shrink:0;"></div>
-                  <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Build failed</div><div style="font-size:12px;color:var(--gray-400);">Unit test timeout on CI</div></div>
-                  <div style="font-size:12px;color:var(--gray-400);">12m ago</div>
-                </div>
-                <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);">
-                  <div style="width:8px;height:8px;border-radius:50%;background:var(--info);margin-top:5px;flex-shrink:0;"></div>
-                  <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Deploy started</div><div style="font-size:12px;color:var(--gray-400);">v1.2.0 → production</div></div>
-                  <div style="font-size:12px;color:var(--gray-400);">18m ago</div>
-                </div>
-                <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);">
-                  <div style="width:8px;height:8px;border-radius:50%;background:var(--warning);margin-top:5px;flex-shrink:0;"></div>
-                  <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--gray-800);">New issue opened</div><div style="font-size:12px;color:var(--gray-400);">Dropdown z-index overlaps modal</div></div>
-                  <div style="font-size:12px;color:var(--gray-400);">1h ago</div>
-                </div>
-                <div style="display:flex;gap:12px;padding:10px 0;">
-                  <div style="width:8px;height:8px;border-radius:50%;background:var(--success);margin-top:5px;flex-shrink:0;"></div>
-                  <div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Release tagged</div><div style="font-size:12px;color:var(--gray-400);">v1.1.5</div></div>
-                  <div style="font-size:12px;color:var(--gray-400);">2h ago</div>
+            
+            <div class="ww-activity">
+              <div class="ww-activity__header">
+                <span class="ww-activity__title">Recent Activity</span>
+                <div class="ww-activity__filter-tabs">
+                  <button class="ww-activity__tab active" onclick="filterActivity('all', this)">All</button>
+                  <button class="ww-activity__tab" onclick="filterActivity('success', this)">Success</button>
+                  <button class="ww-activity__tab" onclick="filterActivity('danger', this)">Failures</button>
+                  <button class="ww-activity__tab" onclick="filterActivity('info', this)">Info</button>
+                  <button class="ww-activity__tab" onclick="filterActivity('warning', this)">Warnings</button>
                 </div>
               </div>
+
+              <!-- AI prompt bar -->
+              <div class="ww-activity__ai-bar">
+                <span style="color:var(--primary); font-weight:bold;">✦</span>
+                <input type="text" class="ww-activity__ai-input" id="activity-ai-prompt" placeholder="Describe activity to generate… e.g. 'Deploy completed on AWS'" onkeydown="if(event.key==='Enter')generateAiActivity()" />
+                <button type="button" class="ww-activity__ai-btn" id="activity-ai-btn" onclick="generateAiActivity()">Generate</button>
+              </div>
+
+              <!-- Activity List -->
+              <div class="ww-activity__list" id="activity-list"></div>
+
+              <!-- Show more / less -->
+              <button type="button" class="ww-activity__toggle-btn" id="activity-toggle-btn" onclick="toggleActivityExpand()">
+                Show more
+              </button>
             </div>
+
           </div>
         </div>
-        <div class="code-block"><code><span class="kw">const</span> items = [
-  { id: 1, label: <span class="str">'PR #142 merged'</span>, description: <span class="str">'feat: add dark mode'</span>, status: <span class="str">'success'</span>, timestamp: <span class="str">'3m ago'</span> },
-  { id: 2, label: <span class="str">'Build failed'</span>,    description: <span class="str">'Unit test timeout'</span>,     status: <span class="str">'danger'</span>,  timestamp: <span class="str">'12m ago'</span> },
-  { id: 3, label: <span class="str">'Deploy started'</span>,  description: <span class="str">'v1.2.0 → production'</span>, status: <span class="str">'info'</span>,    timestamp: <span class="str">'18m ago'</span> },
-];
-
-<span class="tag">&lt;ActivityWidget</span>
-  <span class="attr">title</span>=<span class="str">"Recent Activity"</span>
-  <span class="attr">items</span>={items}
-  <span class="attr">maxVisible</span>={5}
-<span class="tag">/&gt;</span>
-
-<span class="cmt">// With AI generation</span>
-<span class="tag">&lt;ActivityWidget</span>
-  <span class="attr">title</span>=<span class="str">"AI-Powered Feed"</span>
-  <span class="attr">items</span>={items}
-  <span class="attr">onAiGenerate</span>={async (prompt) => {
-    <span class="kw">const</span> newItems = <span class="kw">await</span> fetchActivity(prompt);
-    setItems(newItems);
-  }}
-<span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">ActivityItem shape</div>
-        <div class="code-block"><code><span class="kw">interface</span> ActivityItem {
-  id:          string | number;
-  label:       string;
-  description?: string;
-  status?:     <span class="str">'success'</span> | <span class="str">'danger'</span> | <span class="str">'warning'</span> | <span class="str">'info'</span> | <span class="str">'default'</span>;
-  timestamp?:  string;
-  icon?:       ReactNode;
-}</code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>items</code></td><td><code>ActivityItem[]</code></td><td>—</td><td>Array of activity events</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>—</td><td>Widget heading</td></tr>
-            <tr><td><code>maxVisible</code></td><td><code>number</code></td><td><code>5</code></td><td>Items shown before "Show more"</td></tr>
-            <tr><td><code>compact</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Tighter row spacing</td></tr>
-            <tr><td><code>bordered</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Outer border</td></tr>
-            <tr><td><code>onAiGenerate</code></td><td><code>(prompt: string) => Promise&lt;void&gt;</code></td><td>—</td><td>Adds ✦ AI prompt bar</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -1096,80 +1122,87 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
     <div id="weatherwidget" class="page">
       <div class="page-header">
         <h2>WeatherWidget ✦</h2>
-        <p>Current conditions card with condition-driven gradient background and optional 7-day forecast strip.</p>
+        <p>Current conditions card with dynamic gradients, city switcher, °C/°F toggle, and 7-day forecast strip.</p>
       </div>
       <div class="section">
-        <div class="section-title">Conditions</div>
+        <div class="section-title">Live Weather Card</div>
         <div class="example">
-          <div class="example-label">Background changes with weather condition</div>
-          <div class="example-preview" style="gap:16px;flex-wrap:wrap;">
-            <div style="border-radius:16px;padding:24px 20px;background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;width:180px;">
-              <div style="font-size:32px;margin-bottom:4px;">☀️</div>
-              <div style="font-size:28px;font-weight:700;">23°C</div>
-              <div style="font-size:14px;opacity:.85;">San Francisco</div>
-              <div style="font-size:12px;opacity:.7;margin-top:8px;">Sunny · Feels like 21°</div>
+          <div class="example-label">Select cities, toggle °C/°F, or generate with AI prompt</div>
+          <div class="example-preview column" style="padding:24px;">
+
+            <!-- Controls bar -->
+            <div class="ww-weather__controls">
+              <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Quick City:</span>
+              <button class="ww-weather__chip active" onclick="setWeatherCity('sf', this)">San Francisco</button>
+              <button class="ww-weather__chip" onclick="setWeatherCity('london', this)">London</button>
+              <button class="ww-weather__chip" onclick="setWeatherCity('tokyo', this)">Tokyo</button>
+              <button class="ww-weather__chip" onclick="setWeatherCity('helsinki', this)">Helsinki</button>
+              <button class="ww-weather__chip" onclick="setWeatherCity('miami', this)">Miami</button>
+              
+              <div style="margin-left:auto; display:flex; gap:6px;">
+                <button class="ww-weather__chip" id="weather-unit-btn" onclick="toggleWeatherUnit()">Switch to °F</button>
+                <button class="ww-weather__chip" id="weather-forecast-toggle" onclick="toggleWeatherForecast()">Toggle Forecast</button>
+              </div>
             </div>
-            <div style="border-radius:16px;padding:24px 20px;background:linear-gradient(135deg,#64748b,#94a3b8);color:#fff;width:180px;">
-              <div style="font-size:32px;margin-bottom:4px;">🌧️</div>
-              <div style="font-size:28px;font-weight:700;">11°C</div>
-              <div style="font-size:14px;opacity:.85;">London, UK</div>
-              <div style="font-size:12px;opacity:.7;margin-top:8px;">Rainy · Humidity 89%</div>
+
+            <!-- AI prompt -->
+            <div class="ww-activity__ai-bar" style="max-width:440px; margin-bottom:12px;">
+              <span style="color:var(--primary); font-weight:bold;">✦</span>
+              <input type="text" class="ww-activity__ai-input" id="weather-ai-prompt" placeholder="AI weather prompt… e.g. 'Snowy -8°C in Oslo'" onkeydown="if(event.key==='Enter')generateAiWeather()" />
+              <button type="button" class="ww-activity__ai-btn" onclick="generateAiWeather()">Generate</button>
             </div>
-            <div style="border-radius:16px;padding:24px 20px;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;width:180px;">
-              <div style="font-size:32px;margin-bottom:4px;">❄️</div>
-              <div style="font-size:28px;font-weight:700;">-4°C</div>
-              <div style="font-size:14px;opacity:.85;">Helsinki</div>
-              <div style="font-size:12px;opacity:.7;margin-top:8px;">Snowy · Wind 18 km/h</div>
+
+            <!-- Live Weather API Search bar -->
+            <div style="display:flex; gap:8px; max-width:440px; margin-bottom:12px; align-items:center;">
+              <input type="text" class="ww-input" id="weather-live-city-input" placeholder="Enter any city worldwide (e.g. Dubai, Paris, Moscow)..." style="flex:1;" onkeydown="if(event.key==='Enter')syncLiveWeather()" />
+              <button type="button" class="ww-btn ww-btn--primary" onclick="syncLiveWeather()" style="white-space:nowrap; display:flex; align-items:center; gap:6px;">
+                <span class="ww-live-badge"><span class="ww-live-badge__dot"></span>LIVE</span>
+                Sync Weather
+              </button>
             </div>
-            <div style="border-radius:16px;padding:24px 20px;background:linear-gradient(135deg,#1c1917,#44403c);color:#fff;width:180px;">
-              <div style="font-size:32px;margin-bottom:4px;">⛈️</div>
-              <div style="font-size:28px;font-weight:700;">28°C</div>
-              <div style="font-size:14px;opacity:.85;">Miami, FL</div>
-              <div style="font-size:12px;opacity:.7;margin-top:8px;">Stormy · Wind 55 km/h</div>
+
+            <!-- The Widget Card -->
+            <div class="ww-weather" id="weather-card" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+              <div style="display:flex; justify-content:flex-end; margin-bottom:6px;">
+                <span class="ww-live-badge" id="weather-live-indicator" style="display:none;background:rgba(255,255,255,0.25);color:#fff;border-color:rgba(255,255,255,0.4);">
+                  <span class="ww-live-badge__dot" style="background:#fff;box-shadow:0 0 6px #fff;"></span>LIVE API
+                </span>
+              </div>
+              <div class="ww-weather__top">
+                <div>
+                  <div class="ww-weather__main-temp" id="weather-temp">23°C</div>
+                  <div class="ww-weather__loc" id="weather-loc">San Francisco, CA</div>
+                  <div class="ww-weather__cond-text" id="weather-cond-text">Sunny · Feels like 21°</div>
+                </div>
+                <div class="ww-weather__big-icon" id="weather-icon">☀️</div>
+              </div>
+
+              <!-- Details Grid -->
+              <div class="ww-weather__details-grid">
+                <div class="ww-weather__detail-item">
+                  <div class="ww-weather__detail-label">Humidity</div>
+                  <div class="ww-weather__detail-val" id="weather-hum">55%</div>
+                </div>
+                <div class="ww-weather__detail-item">
+                  <div class="ww-weather__detail-label">Wind</div>
+                  <div class="ww-weather__detail-val" id="weather-wind">12 km/h</div>
+                </div>
+                <div class="ww-weather__detail-item">
+                  <div class="ww-weather__detail-label">UV Index</div>
+                  <div class="ww-weather__detail-val" id="weather-uv">6</div>
+                </div>
+                <div class="ww-weather__detail-item">
+                  <div class="ww-weather__detail-label">Visibility</div>
+                  <div class="ww-weather__detail-val" id="weather-vis">10 km</div>
+                </div>
+              </div>
+
+              <!-- Forecast Strip -->
+              <div class="ww-weather__forecast-row" id="weather-forecast-row"></div>
             </div>
+
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;WeatherWidget</span>
-  <span class="attr">location</span>=<span class="str">"San Francisco, CA"</span>
-  <span class="attr">temperature</span>={23}
-  <span class="attr">unit</span>=<span class="str">"C"</span>
-  <span class="attr">condition</span>=<span class="str">"sunny"</span>
-  <span class="attr">feelsLike</span>={21}
-  <span class="attr">humidity</span>={55}
-  <span class="attr">windSpeed</span>={12}
-  <span class="attr">showForecast</span>
-  <span class="attr">forecast</span>={forecastDays}
-<span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Forecast day shape</div>
-        <div class="code-block"><code><span class="kw">interface</span> WeatherForecastDay {
-  day:       string;        <span class="cmt">// e.g. 'Mon'</span>
-  high:      number;
-  low:       number;
-  condition: WeatherCondition;
-}</code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>location</code></td><td><code>string</code></td><td>—</td><td>City / location name</td></tr>
-            <tr><td><code>temperature</code></td><td><code>number</code></td><td>—</td><td>Current temperature</td></tr>
-            <tr><td><code>unit</code></td><td><code>'C' | 'F'</code></td><td><code>'C'</code></td><td>Temperature unit</td></tr>
-            <tr><td><code>condition</code></td><td><code>WeatherCondition</code></td><td>—</td><td>sunny · cloudy · rainy · snowy · stormy · partly-cloudy · windy · foggy</td></tr>
-            <tr><td><code>feelsLike</code></td><td><code>number</code></td><td>—</td><td>Apparent temperature</td></tr>
-            <tr><td><code>humidity</code></td><td><code>number</code></td><td>—</td><td>Humidity %</td></tr>
-            <tr><td><code>windSpeed</code></td><td><code>number</code></td><td>—</td><td>Wind speed</td></tr>
-            <tr><td><code>windUnit</code></td><td><code>string</code></td><td><code>'km/h'</code></td><td>Wind speed unit</td></tr>
-            <tr><td><code>uvIndex</code></td><td><code>number</code></td><td>—</td><td>UV index</td></tr>
-            <tr><td><code>visibility</code></td><td><code>number</code></td><td>—</td><td>Visibility in km</td></tr>
-            <tr><td><code>showForecast</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Show 7-day forecast strip</td></tr>
-            <tr><td><code>forecast</code></td><td><code>WeatherForecastDay[]</code></td><td>—</td><td>Forecast data</td></tr>
-            <tr><td><code>onAiGenerate</code></td><td><code>(prompt: string) => Promise&lt;void&gt;</code></td><td>—</td><td>Adds ✦ AI prompt bar</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -1177,92 +1210,392 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
     <div id="codewidget" class="page">
       <div class="page-header">
         <h2>CodeWidget ✦</h2>
-        <p>Dark-themed code block with macOS toolbar, copy button, line numbers, editable mode, and AI snippet generation.</p>
+        <p>Dark-themed code viewer with macOS toolbar, line numbers, live syntax highlighting, editable mode, and AI snippet generation.</p>
       </div>
       <div class="section">
-        <div class="section-title">Preview</div>
+        <div class="section-title">Interactive Code Editor & Viewer</div>
         <div class="example">
-          <div class="example-label">TypeScript with line numbers and highlighted lines</div>
-          <div class="example-preview column" style="padding:0;">
-            <div style="background:#111827;border-radius:12px;overflow:hidden;">
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#1f2937;border-bottom:1px solid #374151;">
-                <div style="display:flex;gap:6px;align-items:center;">
-                  <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>
-                  <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-                  <span style="width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
-                  <span style="margin-left:8px;font-size:12px;color:#9ca3af;font-family:monospace;">useCounter.ts</span>
+          <div class="example-label">Switch languages, toggle editable mode, or click Copy for real clipboard text</div>
+          <div class="example-preview column" style="padding:24px;">
+
+            <!-- AI Prompt bar for code -->
+            <div class="ww-activity__ai-bar" style="max-width:650px; margin-bottom:14px;">
+              <span style="color:var(--primary); font-weight:bold;">✦</span>
+              <input type="text" class="ww-activity__ai-input" id="code-ai-prompt" placeholder="Describe snippet to generate… e.g. 'React debounce hook' or 'Quick sort algorithm'" onkeydown="if(event.key==='Enter')generateAiCode()" />
+              <button type="button" class="ww-activity__ai-btn" onclick="generateAiCode()">Generate</button>
+            </div>
+
+            <!-- The Code Widget -->
+            <div class="ww-code-widget">
+              <!-- Window Toolbar -->
+              <div class="ww-code-widget__bar">
+                <div class="ww-code-widget__dots">
+                  <span class="ww-code-widget__dot ww-code-widget__dot--r"></span>
+                  <span class="ww-code-widget__dot ww-code-widget__dot--y"></span>
+                  <span class="ww-code-widget__dot ww-code-widget__dot--g"></span>
+                  <span class="ww-code-widget__filename" id="code-active-file">useCounter.ts</span>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center;">
-                  <span style="font-size:11px;padding:2px 7px;border-radius:4px;background:#374151;color:#9ca3af;font-family:monospace;">typescript</span>
-                  <button onclick="navigator.clipboard.writeText('// code')" style="font-size:11px;padding:3px 8px;background:#374151;border:none;border-radius:4px;color:#9ca3af;cursor:pointer;">⎘ Copy</button>
+                <div class="ww-code-widget__actions">
+                  <button type="button" class="ww-code-widget__btn" id="code-edit-toggle" onclick="toggleCodeEditable()">✎ Edit Mode</button>
+                  <button type="button" class="ww-code-widget__btn" onclick="copyCurrentCode()">⎘ Copy</button>
                 </div>
               </div>
-              <div style="padding:16px;overflow-x:auto;">
-                <table style="border-collapse:collapse;width:100%;font-family:monospace;font-size:13px;line-height:1.7;">
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;min-width:28px;">1</td><td style="color:#e5e7eb;"><span style="color:#c084fc;">import</span> { useState, useCallback } <span style="color:#c084fc;">from</span> <span style="color:#86efac;">'react'</span>;</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">2</td><td style="color:#e5e7eb;">&nbsp;</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">3</td><td style="color:#e5e7eb;"><span style="color:#c084fc;">interface</span> <span style="color:#67e8f9;">UseCounterOptions</span> {</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">4</td><td style="color:#e5e7eb;">&nbsp;&nbsp;min?: <span style="color:#67e8f9;">number</span>;</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">5</td><td style="color:#e5e7eb;">&nbsp;&nbsp;max?: <span style="color:#67e8f9;">number</span>;</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">6</td><td style="color:#e5e7eb;">}</td></tr>
-                  <tr style="background:rgba(124,58,237,.15);"><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">7</td><td style="color:#e5e7eb;"><span style="color:#c084fc;">export function</span> <span style="color:#fde68a;">useCounter</span>(initial = 0, options: <span style="color:#67e8f9;">UseCounterOptions</span> = {}) {</td></tr>
-                  <tr style="background:rgba(124,58,237,.15);"><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">8</td><td style="color:#e5e7eb;">&nbsp;&nbsp;<span style="color:#c084fc;">const</span> { min = -Infinity, max = Infinity } = options;</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">9</td><td style="color:#e5e7eb;">&nbsp;&nbsp;<span style="color:#c084fc;">const</span> [count, setCount] = useState(initial);</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">10</td><td style="color:#e5e7eb;">&nbsp;&nbsp;<span style="color:#c084fc;">return</span> { count, inc, dec, reset };</td></tr>
-                  <tr><td style="color:#4b5563;padding-right:16px;user-select:none;text-align:right;">11</td><td style="color:#e5e7eb;">}</td></tr>
-                </table>
+
+              <!-- Language Tabs -->
+              <div class="ww-code-widget__tabs">
+                <button type="button" class="ww-code-widget__tab active" onclick="switchCodeTab('ts', this)">useCounter.ts</button>
+                <button type="button" class="ww-code-widget__tab" onclick="switchCodeTab('py', this)">data_analyzer.py</button>
+                <button type="button" class="ww-code-widget__tab" onclick="switchCodeTab('sql', this)">portfolio_metrics.sql</button>
+                <button type="button" class="ww-code-widget__tab" onclick="switchCodeTab('css', this)">theme.css</button>
+              </div>
+
+              <!-- Code View / Editable Area -->
+              <div class="ww-code-widget__body" id="code-view-container">
+                <table class="ww-code-widget__table" id="code-table"></table>
+              </div>
+              <div class="ww-code-widget__body" id="code-edit-container" style="display:none;">
+                <textarea class="ww-code-widget__editable-area" id="code-textarea" oninput="handleCodeTextareaChange(this.value)"></textarea>
               </div>
             </div>
+
           </div>
         </div>
-        <div class="code-block"><code><span class="tag">&lt;CodeWidget</span>
-  <span class="attr">title</span>=<span class="str">"useCounter.ts"</span>
-  <span class="attr">language</span>=<span class="str">"typescript"</span>
-  <span class="attr">code</span>={tsSnippet}
-  <span class="attr">showCopy</span>
-  <span class="attr">showLineNumbers</span>
-  <span class="attr">highlightLines</span>={[7, 8]}
-  <span class="attr">maxHeight</span>=<span class="str">"360px"</span>
-<span class="tag">/&gt;</span>
-
-<span class="cmt">// Editable mode</span>
-<span class="tag">&lt;CodeWidget</span>
-  <span class="attr">language</span>=<span class="str">"python"</span>
-  <span class="attr">code</span>={code}
-  <span class="attr">editable</span>
-  <span class="attr">onChange</span>={setCode}
-<span class="tag">/&gt;</span>
-
-<span class="cmt">// With AI generation</span>
-<span class="tag">&lt;CodeWidget</span>
-  <span class="attr">language</span>=<span class="str">"typescript"</span>
-  <span class="attr">code</span>={snippet}
-  <span class="attr">onAiGenerate</span>={async (prompt) => {
-    <span class="kw">const</span> result = <span class="kw">await</span> generateSnippet(prompt);
-    setSnippet(result);
-  }}
-<span class="tag">/&gt;</span></code></div>
-      </div>
-      <div class="section">
-        <div class="section-title">Props</div>
-        <table class="prop-table">
-          <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>code</code></td><td><code>string</code></td><td><code>''</code></td><td>Source code to display</td></tr>
-            <tr><td><code>language</code></td><td><code>CodeLanguage</code></td><td><code>'plaintext'</code></td><td>Language badge label</td></tr>
-            <tr><td><code>title</code></td><td><code>string</code></td><td>—</td><td>Filename shown in toolbar</td></tr>
-            <tr><td><code>showCopy</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show copy button</td></tr>
-            <tr><td><code>showLineNumbers</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Show line number gutter</td></tr>
-            <tr><td><code>highlightLines</code></td><td><code>number[]</code></td><td><code>[]</code></td><td>Line numbers to highlight</td></tr>
-            <tr><td><code>maxHeight</code></td><td><code>string</code></td><td><code>'400px'</code></td><td>Scrollable max height</td></tr>
-            <tr><td><code>editable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Turns block into a textarea</td></tr>
-            <tr><td><code>onChange</code></td><td><code>(code: string) => void</code></td><td>—</td><td>Called on edit (requires editable)</td></tr>
-            <tr><td><code>onAiGenerate</code></td><td><code>(prompt: string) => Promise&lt;void&gt;</code></td><td>—</td><td>Adds ✦ AI prompt bar above code</td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
+    <!-- FINANCEWIDGET (NEW!) -->
+    <div id="financewidget" class="page">
+      <div class="page-header">
+        <h2>FinanceWidget ✦ <span class="badge-pill-nav">NEW</span></h2>
+        <p>Real-time crypto and stock portfolio tracker with interactive SVG sparkline charts, currency switcher, and AI financial analysis.</p>
+      </div>
+      <div class="section">
+        <div class="section-title">Live Finance & Market Tracker</div>
+        <div class="example">
+          <div class="example-label">Switch assets, change currencies, or ask AI for market analysis</div>
+          <div class="example-preview column" style="padding:24px;">
+
+            <div class="ww-finance">
+              <!-- Header with currency switcher & Binance Live Button -->
+              <div class="ww-finance__header">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="ww-finance__title">Market Watch</span>
+                  <button type="button" class="ww-live-badge" onclick="syncLiveCrypto()" style="border:none;cursor:pointer;padding:3px 8px;" title="Click to sync real-time Binance rates">
+                    <span class="ww-live-badge__dot"></span>LIVE API
+                  </button>
+                </div>
+                <select class="ww-finance__curr-select" id="finance-curr-select" onchange="changeFinanceCurrency(this.value)">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="JPY">JPY (¥)</option>
+                  <option value="RUB">RUB (₽)</option>
+                </select>
+              </div>
+
+              <!-- Asset Tabs -->
+              <div class="ww-finance__tabs">
+                <button type="button" class="ww-finance__tab active" onclick="setFinanceAsset('BTC', this)"><span>₿</span> BTC</button>
+                <button type="button" class="ww-finance__tab" onclick="setFinanceAsset('ETH', this)"><span>Ξ</span> ETH</button>
+                <button type="button" class="ww-finance__tab" onclick="setFinanceAsset('SOL', this)"><span>◎</span> SOL</button>
+                <button type="button" class="ww-finance__tab" onclick="setFinanceAsset('AAPL', this)"><span></span> AAPL</button>
+                <button type="button" class="ww-finance__tab" onclick="setFinanceAsset('NVDA', this)"><span>🟢</span> NVDA</button>
+                <button type="button" class="ww-finance__tab" onclick="setFinanceAsset('TSLA', this)"><span>⚡</span> TSLA</button>
+              </div>
+
+              <!-- Card View -->
+              <div class="ww-finance__card">
+                <div class="ww-finance__asset-header">
+                  <div class="ww-finance__asset-title">
+                    <span id="finance-asset-icon" style="font-size:20px;">₿</span>
+                    <div>
+                      <div id="finance-asset-name">Bitcoin</div>
+                      <div class="ww-finance__asset-sub" id="finance-asset-sym">BTC · Crypto</div>
+                    </div>
+                  </div>
+                  <span class="ww-finance__badge ww-finance__badge--pos" id="finance-change-badge">▲ +3.42%</span>
+                </div>
+
+                <div class="ww-finance__price" id="finance-price">$64,280.50</div>
+
+                <!-- Sparkline SVG -->
+                <svg class="ww-finance__sparkline-svg" viewBox="0 0 360 50" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="spark-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" id="spark-stop-1" stop-color="#10b981" stop-opacity="0.35" />
+                      <stop offset="100%" id="spark-stop-2" stop-color="#10b981" stop-opacity="0.0" />
+                    </linearGradient>
+                  </defs>
+                  <path id="spark-fill-path" d="" fill="url(#spark-grad)" />
+                  <path id="spark-line-path" d="" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+
+                <!-- Stats 24h -->
+                <div class="ww-finance__stats-grid">
+                  <div class="ww-finance__stat-item">
+                    <span class="ww-finance__stat-label">24h High</span>
+                    <span class="ww-finance__stat-val" id="finance-high">$65,100.00</span>
+                  </div>
+                  <div class="ww-finance__stat-item">
+                    <span class="ww-finance__stat-label">24h Low</span>
+                    <span class="ww-finance__stat-val" id="finance-low">$62,800.00</span>
+                  </div>
+                  <div class="ww-finance__stat-item">
+                    <span class="ww-finance__stat-label">24h Volume</span>
+                    <span class="ww-finance__stat-val" id="finance-vol">$28.4B</span>
+                  </div>
+                  <div class="ww-finance__stat-item">
+                    <span class="ww-finance__stat-label">Market Cap</span>
+                    <span class="ww-finance__stat-val" id="finance-cap">$1.26T</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Analysis Prompt -->
+              <div class="ww-activity__ai-bar">
+                <span style="color:var(--primary); font-weight:bold;">✦</span>
+                <input type="text" class="ww-activity__ai-input" id="finance-ai-prompt" placeholder="Ask AI… e.g. 'Analyze Bitcoin 24h breakout potential'" onkeydown="if(event.key==='Enter')generateAiFinanceInsight()" />
+                <button type="button" class="ww-activity__ai-btn" onclick="generateAiFinanceInsight()">Analyze</button>
+              </div>
+
+              <!-- AI Insight Result Box -->
+              <div class="ww-finance__ai-box" id="finance-ai-box">
+                <strong>✦ AI Market Intelligence:</strong><br />
+                <span id="finance-ai-text">Bullish momentum detected. Price is holding key support above the 20-day EMA with expanding volume (+14%). Relative Strength Index (RSI) at 61 indicates healthy buy-side pressure.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- TICKERWIDGET (NEW!) -->
+    <div id="tickerwidget" class="page">
+      <div class="page-header">
+        <h2>Ticker Bar ✦ <span class="badge-pill-nav" style="background:#06b6d4;">LIVE</span></h2>
+        <p>Continuous marquee ticker bar with live crypto and stock quotes, hover-pause, multi-currency support, and mobile optimization.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Live Ticker Bar Showcase</div>
+        <div class="example">
+          <div class="example-label">Infinite smooth scrolling with live Binance rates & pause on hover</div>
+          <div class="example-preview column" style="padding:24px; gap:22px;">
+            
+            <!-- Default Dark Ticker -->
+            <div style="width:100%;">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">1. Standard Dark Bar (Connected to Binance Live API)</div>
+              <wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,XRP,AAPL,NVDA,TSLA" currency="USD" speed="25"></wealthy-ticker>
+            </div>
+
+            <!-- Pill Variant -->
+            <div style="width:100%;">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">2. Pill Floating Variant (RUB Currency)</div>
+              <wealthy-ticker symbols="BTC,ETH,SOL,NVDA,TSLA" currency="RUB" speed="22" variant="pill"></wealthy-ticker>
+            </div>
+
+            <!-- Light Variant -->
+            <div style="width:100%;">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">3. Clean Light Theme (EUR Currency)</div>
+              <wealthy-ticker symbols="BTC,ETH,SOL,AAPL,NVDA" currency="EUR" speed="30" theme="light"></wealthy-ticker>
+            </div>
+
+            <!-- Controls bar -->
+            <div style="background:var(--bg-surface-alt); padding:16px; border-radius:var(--radius-lg); border:1px solid var(--border-color); width:100%; display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+              <div>
+                <label style="font-size:12px; font-weight:600; display:block; margin-bottom:4px;">Currency</label>
+                <select id="ticker-demo-curr" onchange="updateTickerDemo()" style="padding:6px 10px; border-radius:var(--radius); border:1px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="RUB">RUB (₽)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="JPY">JPY (¥)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size:12px; font-weight:600; display:block; margin-bottom:4px;">Speed: <span id="ticker-speed-val">25s</span></label>
+                <input type="range" id="ticker-demo-speed" min="10" max="60" value="25" oninput="updateTickerDemo()" />
+              </div>
+
+              <div style="margin-left:auto;">
+                <button type="button" class="ww-btn ww-btn--primary" onclick="copyTickerSnippet()">
+                  📋 Copy Ticker Tag
+                </button>
+              </div>
+            </div>
+
+            <div id="ticker-interactive-mount" style="width:100%;">
+              <wealthy-ticker id="ticker-custom-el" symbols="BTC,ETH,SOL,BNB,DOGE,NVDA" currency="USD" speed="25"></wealthy-ticker>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="example">
+          <div class="example-label">One-Line Embed Code</div>
+          <div class="code-block" style="margin:0;">
+            <pre><code>&lt;!-- 1. Include WealthyWidgets Bundle --&gt;
+&lt;script src="https://anom-developer.github.io/wealthywidgets/dist/wealthywidgets.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Use anywhere in HTML --&gt;
+&lt;wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,AAPL,NVDA" currency="USD" speed="25"&gt;&lt;/wealthy-ticker&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMBED STUDIO (NEW!) -->
+    <div id="studio" class="page">
+      <div class="page-header">
+        <h2>Widget Embed Studio 🚀</h2>
+        <p>Configure any widget, preview it in real time, and copy ready-to-use embed code for your website (HTML, WordPress, Webflow, React, Next.js).</p>
+      </div>
+
+      <div class="section">
+        <div class="example">
+          <div class="example-label">
+            <span>Interactive Widget Generator</span>
+            <span style="font-size:11px;color:var(--primary);font-weight:700;">ZERO-BUILD READY</span>
+          </div>
+          <div class="example-preview" style="gap:28px; align-items:flex-start;">
+
+            <!-- Left column: Config Controls -->
+            <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:16px;">
+              <div class="ww-field">
+                <label class="ww-label">Choose Widget</label>
+                <select id="studio-widget-type" onchange="updateStudioConfig()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main); font-weight:600;">
+                  <option value="finance">Finance / Crypto Tracker</option>
+                  <option value="ticker">Ticker Bar (Бегущая строка) ✦</option>
+                  <option value="weather">Weather Forecast Card</option>
+                  <option value="activity">Activity Timeline</option>
+                  <option value="code">Code Snippet Block</option>
+                </select>
+              </div>
+
+              <!-- Dynamic options for Finance -->
+              <div id="studio-opts-finance" style="display:flex; flex-direction:column; gap:12px;">
+                <div class="ww-field">
+                  <label class="ww-label">Asset</label>
+                  <select id="studio-fin-asset" onchange="renderStudioPreview()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="SOL">Solana (SOL)</option>
+                    <option value="AAPL">Apple Inc. (AAPL)</option>
+                    <option value="NVDA">NVIDIA Corp. (NVDA)</option>
+                    <option value="TSLA">Tesla Inc. (TSLA)</option>
+                  </select>
+                </div>
+                <div class="ww-field">
+                  <label class="ww-label">Currency</label>
+                  <select id="studio-fin-curr" onchange="renderStudioPreview()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="RUB">RUB (₽)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="JPY">JPY (¥)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dynamic options for Ticker (NEW!) -->
+              <div id="studio-opts-ticker" style="display:none; flex-direction:column; gap:12px;">
+                <div class="ww-field">
+                  <label class="ww-label">Symbols (comma separated)</label>
+                  <input type="text" id="studio-ticker-symbols" value="BTC,ETH,SOL,NVDA,AAPL,TSLA" oninput="renderStudioPreview()" class="ww-input" />
+                </div>
+                <div class="ww-field">
+                  <label class="ww-label">Currency</label>
+                  <select id="studio-ticker-curr" onchange="renderStudioPreview()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="RUB">RUB (₽)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="JPY">JPY (¥)</option>
+                  </select>
+                </div>
+                <div class="ww-field">
+                  <label class="ww-label">Scroll Speed (seconds)</label>
+                  <input type="number" id="studio-ticker-speed" value="30" min="10" max="90" oninput="renderStudioPreview()" class="ww-input" />
+                </div>
+                <div class="ww-field">
+                  <label class="ww-label">Theme</label>
+                  <select id="studio-ticker-theme" onchange="renderStudioPreview()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                    <option value="dark">Dark Theme</option>
+                    <option value="light">Light Theme</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dynamic options for Weather -->
+              <div id="studio-opts-weather" style="display:none; flex-direction:column; gap:12px;">
+                <div class="ww-field">
+                  <label class="ww-label">Location / City</label>
+                  <input type="text" id="studio-weather-city" value="Tokyo, Japan" oninput="renderStudioPreview()" class="ww-input" />
+                </div>
+                <div class="ww-field">
+                  <label class="ww-label">Unit</label>
+                  <select id="studio-weather-unit" onchange="renderStudioPreview()" style="padding:8px 12px; border-radius:var(--radius); border:1.5px solid var(--border-color); background:var(--bg-surface); color:var(--text-main);">
+                    <option value="C">Celsius (°C)</option>
+                    <option value="F">Fahrenheit (°F)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dynamic options for Activity -->
+              <div id="studio-opts-activity" style="display:none; flex-direction:column; gap:12px;">
+                <div class="ww-field">
+                  <label class="ww-label">Feed Title</label>
+                  <input type="text" id="studio-activity-title" value="Project Updates" oninput="renderStudioPreview()" class="ww-input" />
+                </div>
+              </div>
+
+              <!-- Dynamic options for Code -->
+              <div id="studio-opts-code" style="display:none; flex-direction:column; gap:12px;">
+                <div class="ww-field">
+                  <label class="ww-label">Filename & Language</label>
+                  <input type="text" id="studio-code-file" value="analytics.ts" oninput="renderStudioPreview()" class="ww-input" />
+                </div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;">
+                <button type="button" class="ww-btn ww-btn--primary" onclick="copyStudioEmbedCode()">📋 Copy HTML Code</button>
+                <button type="button" class="ww-btn ww-btn--secondary" onclick="copyNotionEmbedUrl()" style="border-color:#10b981; color:#10b981; font-weight:600;">📌 Copy Notion URL</button>
+                <button type="button" class="ww-btn ww-btn--secondary" onclick="downloadStudioHtml()">💾 Download HTML</button>
+              </div>
+            </div>
+
+            <!-- Right column: Live Preview & Code output -->
+            <div style="flex:1.2; min-width:320px; display:flex; flex-direction:column; gap:16px;">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Widget Preview</div>
+              <div id="studio-preview-box" style="display:flex; justify-content:center; align-items:center; background:var(--bg-surface-alt); padding:20px; border-radius:var(--radius-lg); border:1px dashed var(--border-color); min-height:260px;"></div>
+
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Generated Embed Code</div>
+              <div class="code-block" style="margin-top:0;">
+                <pre style="margin:0;"><code id="studio-code-output"></code></pre>
+              </div>
+
+              <!-- Notion Quick Guide -->
+              <div style="background:var(--bg-surface); padding:16px; border-radius:var(--radius-lg); border:1px solid var(--border-color); display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:18px;">📌</span>
+                  <strong style="color:var(--text-main); font-size:13px;">How to embed in Notion:</strong>
+                </div>
+                <ol style="margin-left:20px; font-size:13px; color:var(--text-muted); line-height:1.7;">
+                  <li>Click <strong>«Copy Notion URL»</strong> above.</li>
+                  <li>In Notion, type <code style="color:var(--primary); font-weight:600;">/embed</code> on any page and press Enter.</li>
+                  <li>Paste the URL and click <strong>Embed link</strong>.</li>
+                  <li>Resize the block to fit your Notion dashboard!</li>
+                </ol>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </main>
 </div>
@@ -1273,14 +1606,14 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
     <div class="ww-modal__header">
       <div>
         <div class="ww-modal__title" id="m1-title">Confirm Action</div>
-        <div class="ww-modal__desc">This will permanently delete your data.</div>
+        <div class="ww-modal__desc">This action will permanently apply the changes.</div>
       </div>
       <button class="ww-modal__close" onclick="document.getElementById('demo-modal').classList.add('hidden')" aria-label="Close">✕</button>
     </div>
-    <div class="ww-modal__body">Are you sure you want to delete <strong>Project Alpha</strong>? This action cannot be undone.</div>
+    <div class="ww-modal__body">Are you sure you want to proceed with <strong>Production Deployment</strong>? All tests have passed.</div>
     <div class="ww-modal__footer">
       <button class="ww-btn ww-btn--ghost" onclick="document.getElementById('demo-modal').classList.add('hidden')">Cancel</button>
-      <button class="ww-btn ww-btn--danger" onclick="document.getElementById('demo-modal').classList.add('hidden')">Delete</button>
+      <button class="ww-btn ww-btn--primary" onclick="document.getElementById('demo-modal').classList.add('hidden'); showToast('success','Action Confirmed','Deployment initiated successfully!');">Confirm</button>
     </div>
   </div>
 </div>
@@ -1288,9 +1621,9 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
 <div id="demo-modal-simple" class="ww-backdrop hidden" onclick="if(event.target===this)this.classList.add('hidden')">
   <div class="ww-modal" role="dialog" aria-modal="true">
     <div class="ww-modal__body" style="padding-top:8px;">
-      <h3 style="margin-bottom:10px;">Custom Content</h3>
-      <p style="color:var(--gray-500);margin-bottom:20px;">Modal without title prop — header is hidden automatically.</p>
-      <button class="ww-btn ww-btn--primary" onclick="document.getElementById('demo-modal-simple').classList.add('hidden')">Close</button>
+      <h3 style="margin-bottom:10px;">Custom Dialog Content</h3>
+      <p style="color:var(--text-muted);margin-bottom:20px;">Lightweight modal dialog with focus restoration and Escape key handling.</p>
+      <button class="ww-btn ww-btn--primary" onclick="document.getElementById('demo-modal-simple').classList.add('hidden')">Close Dialog</button>
     </div>
   </div>
 </div>
@@ -1298,8 +1631,9 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
 <!-- Toast container -->
 <div class="ww-toast-stack" id="toast-stack"></div>
 
+<!-- ────────────────────────── JAVASCRIPT LOGIC ────────────────────────── -->
 <script>
-  // Navigation
+  // ── 1. Navigation & Routing ──
   document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -1312,44 +1646,847 @@ toast({ <span class="attr">title</span>: <span class="str">'Error'</span>, <span
     });
   });
 
-  // Keyboard close for modals
+  // ── 2. Theme Toggle (Dark / Light) ──
+  const themeToggle = document.getElementById('theme-toggle');
+  if (localStorage.getItem('ww-theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeToggle.innerHTML = '<span>☀️</span> <span>Light Mode</span>';
+  }
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    themeToggle.innerHTML = isDark ? '<span>☀️</span> <span>Light Mode</span>' : '<span>🌙</span> <span>Dark Mode</span>';
+    localStorage.setItem('ww-theme', isDark ? 'dark' : 'light');
+  });
+
+  // ── 3. Modals ──
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.ww-backdrop:not(.hidden)').forEach(b => b.classList.add('hidden'));
     }
   });
 
-  // Toast demo
+  // ── 4. Toast Notifications ──
   const icons = { success: '✓', warning: '⚠', danger: '✕', info: 'ℹ', default: 'ℹ' };
   let toastId = 0;
-
   function showToast(variant, title, message) {
     const stack = document.getElementById('toast-stack');
     const id = 'toast-' + (++toastId);
     const el = document.createElement('div');
-    el.className = `ww-toast ww-toast--${variant}`;
+    el.className = 'ww-toast ww-toast--' + variant;
     el.id = id;
     el.setAttribute('role', 'alert');
-    el.innerHTML = `
-      <span class="ww-toast__icon">${icons[variant] || 'ℹ'}</span>
-      <div class="ww-toast__body">
-        <div class="ww-toast__title">${title}</div>
-        <div class="ww-toast__msg">${message}</div>
-      </div>
-      <button class="ww-toast__close" onclick="removeToast('${id}')" aria-label="Dismiss">✕</button>
-    `;
+    el.innerHTML = '<span class="ww-toast__icon">' + (icons[variant] || 'ℹ') + '</span>' +
+      '<div class="ww-toast__body"><div class="ww-toast__title">' + title + '</div><div class="ww-toast__msg">' + message + '</div></div>' +
+      '<button class="ww-toast__close" onclick="removeToast(\'' + id + '\')" aria-label="Dismiss">✕</button>';
     stack.appendChild(el);
     setTimeout(() => removeToast(id), 4000);
   }
-
   function removeToast(id) {
     const el = document.getElementById(id);
     if (el) el.remove();
   }
-
   function clearToasts() {
     document.getElementById('toast-stack').innerHTML = '';
   }
+
+  // ── 5. Button Demo ──
+  function demoButtonLoading(btn) {
+    btn.classList.add('ww-btn--loading');
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.classList.remove('ww-btn--loading');
+      btn.disabled = false;
+      showToast('success', 'Action Finished', 'Async task completed in 1.5s');
+    }, 1500);
+  }
+
+  // ── 6. Input Live Validation ──
+  function handleDemoInputValidation(val) {
+    const input = document.getElementById('demo-validate-input');
+    const msg = document.getElementById('demo-input-feedback');
+    if (!val) {
+      input.classList.remove('ww-input--error', 'ww-input--success');
+      msg.style.display = 'none';
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(val)) {
+      input.classList.remove('ww-input--error');
+      input.classList.add('ww-input--success');
+      msg.className = 'ww-msg ww-msg--success';
+      msg.textContent = '✓ Valid email address format';
+      msg.style.display = 'block';
+    } else {
+      input.classList.remove('ww-input--success');
+      input.classList.add('ww-input--error');
+      msg.className = 'ww-msg ww-msg--error';
+      msg.textContent = '✕ Please enter a valid email address';
+      msg.style.display = 'block';
+    }
+  }
+
+  function demoAiInputSuggest() {
+    const input = document.getElementById('demo-validate-input');
+    const suggestions = ['alex.dev@wealthywidgets.io', 'sarah.engineer@cloud.internal', 'jordan.tech@fintech.net'];
+    const chosen = suggestions[Math.floor(Math.random() * suggestions.length)];
+    input.value = chosen;
+    handleDemoInputValidation(chosen);
+    showToast('info', 'AI Suggestion Applied', 'Filled in sample email: ' + chosen);
+  }
+
+  // ── 7. Custom Dropdowns (WealthyWidgets) ──
+  function toggleDropdown(type) {
+    const menu = document.getElementById(type + '-menu');
+    const arrow = document.getElementById(type + '-arrow');
+    const isOpen = menu.classList.contains('show');
+    closeAllDropdowns();
+    if (!isOpen) {
+      menu.classList.add('show');
+      arrow.classList.add('open');
+    }
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll('.ww-dropdown-menu').forEach(m => m.classList.remove('show'));
+    document.querySelectorAll('.ww-dropdown-arrow').forEach(a => a.classList.remove('open'));
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.ww-dropdown-custom')) {
+      closeAllDropdowns();
+    }
+  });
+
+  function selectSingleOpt(val) {
+    document.getElementById('single-dropdown-val').textContent = val;
+    document.querySelectorAll('#single-dropdown-list .ww-dropdown-opt').forEach(opt => {
+      opt.classList.toggle('selected', opt.textContent.trim() === val);
+    });
+    closeAllDropdowns();
+    showToast('info', 'Selection Updated', 'Selected ' + val);
+  }
+
+  let selectedMultiTags = ['TypeScript', 'SCSS'];
+  function renderMultiTags() {
+    const container = document.getElementById('multi-dropdown-tags');
+    if (selectedMultiTags.length === 0) {
+      container.innerHTML = '<span style="color:var(--text-muted);font-size:13px;">Select technologies…</span>';
+      return;
+    }
+    container.innerHTML = selectedMultiTags.map(tag => 
+      '<span class="ww-dropdown-tag">' + tag + ' <span class="ww-dropdown-tag-del" onclick="removeMultiTag(\'' + tag + '\', event)">✕</span></span>'
+    ).join('');
+
+    document.querySelectorAll('#multi-dropdown-list .ww-dropdown-opt').forEach(opt => {
+      const name = opt.querySelector('span').textContent.trim();
+      const isSel = selectedMultiTags.includes(name);
+      opt.classList.toggle('selected', isSel);
+      const check = opt.querySelector('span:nth-child(2)');
+      if (isSel && !check) {
+        opt.insertAdjacentHTML('beforeend', ' <span>✓</span>');
+      } else if (!isSel && check) {
+        check.remove();
+      }
+    });
+  }
+
+  function toggleMultiOpt(val) {
+    if (selectedMultiTags.includes(val)) {
+      selectedMultiTags = selectedMultiTags.filter(t => t !== val);
+    } else {
+      selectedMultiTags.push(val);
+    }
+    renderMultiTags();
+  }
+
+  function removeMultiTag(val, e) {
+    e.stopPropagation();
+    selectedMultiTags = selectedMultiTags.filter(t => t !== val);
+    renderMultiTags();
+  }
+
+  function filterDropdownOpts(type, query) {
+    const list = document.getElementById(type + '-list');
+    const q = query.toLowerCase();
+    list.querySelectorAll('.ww-dropdown-opt').forEach(opt => {
+      const text = opt.querySelector('span').textContent.toLowerCase();
+      opt.style.display = text.includes(q) ? 'flex' : 'none';
+    });
+  }
+
+  // ── 8. ProgressBar Controller ──
+  let liveProgressVal = 65;
+  function updateLiveProgress(val) {
+    liveProgressVal = Math.max(0, Math.min(100, parseInt(val)));
+    document.getElementById('pb-live-pct').textContent = liveProgressVal + '%';
+    document.getElementById('pb-live-fill').style.width = liveProgressVal + '%';
+    document.getElementById('pb-slider').value = liveProgressVal;
+  }
+  function stepLiveProgress(delta) {
+    updateLiveProgress(liveProgressVal + delta);
+  }
+  function animateLiveProgress() {
+    const target = liveProgressVal;
+    updateLiveProgress(0);
+    setTimeout(() => updateLiveProgress(target), 80);
+  }
+  function changeLiveProgressStatus(status) {
+    const fill = document.getElementById('pb-live-fill');
+    fill.className = 'ww-progress__fill ww-progress__fill--' + status + ' ww-progress__fill--striped';
+  }
+
+  // ── 9. ActivityWidget ──
+  let activityItems = [
+    { id: 1, label: 'PR #142 merged', desc: 'feat: add dark mode support and theme variables', status: 'success', time: '3m ago' },
+    { id: 2, label: 'Build failed on CI', desc: 'Jest unit test timeout in runner #82', status: 'danger', time: '12m ago' },
+    { id: 3, label: 'Deploy started', desc: 'v2.2.0 → production cluster us-east', status: 'info', time: '18m ago' },
+    { id: 4, label: 'New issue opened', desc: 'Dropdown keyboard accessibility on Safari', status: 'warning', time: '1h ago' },
+    { id: 5, label: 'Release v2.2.0 tagged', desc: 'Full TypeScript build packaged', status: 'success', time: '2h ago' },
+    { id: 6, label: 'Security audit passed', desc: '0 vulnerabilities detected', status: 'success', time: '3h ago' },
+  ];
+  let currentActivityFilter = 'all';
+  let activityExpanded = false;
+
+  function renderActivityFeed() {
+    const list = document.getElementById('activity-list');
+    const filtered = currentActivityFilter === 'all'
+      ? activityItems
+      : activityItems.filter(i => i.status === currentActivityFilter);
+    const max = 4;
+    const visible = activityExpanded ? filtered : filtered.slice(0, max);
+
+    if (visible.length === 0) {
+      list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px;">No events in this filter.</div>';
+    } else {
+      list.innerHTML = visible.map(item =>
+        '<div class="ww-activity__item ww-activity__item--' + item.status + '">' +
+          '<span class="ww-activity__dot"></span>' +
+          '<div class="ww-activity__content">' +
+            '<div class="ww-activity__label">' + item.label + '</div>' +
+            (item.desc ? '<div class="ww-activity__desc">' + item.desc + '</div>' : '') +
+            '<div class="ww-activity__time">' + item.time + '</div>' +
+          '</div>' +
+          '<button class="ww-activity__del-btn" onclick="deleteActivity(' + item.id + ')" title="Remove item">✕</button>' +
+        '</div>'
+      ).join('');
+    }
+
+    const toggleBtn = document.getElementById('activity-toggle-btn');
+    if (filtered.length > max) {
+      toggleBtn.style.display = 'block';
+      toggleBtn.textContent = activityExpanded ? 'Show less' : ('Show ' + (filtered.length - max) + ' more');
+    } else {
+      toggleBtn.style.display = 'none';
+    }
+  }
+
+  function filterActivity(status, btn) {
+    currentActivityFilter = status;
+    document.querySelectorAll('.ww-activity__tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderActivityFeed();
+  }
+
+  function toggleActivityExpand() {
+    activityExpanded = !activityExpanded;
+    renderActivityFeed();
+  }
+
+  function deleteActivity(id) {
+    activityItems = activityItems.filter(i => i.id !== id);
+    renderActivityFeed();
+    showToast('info', 'Item Removed', 'Activity event removed from feed');
+  }
+
+  function generateAiActivity() {
+    const input = document.getElementById('activity-ai-prompt');
+    const btn = document.getElementById('activity-ai-btn');
+    const text = input.value.trim() || 'Scheduled database backup completed';
+    btn.disabled = true;
+    btn.textContent = 'Generating…';
+
+    setTimeout(() => {
+      const statuses = ['success', 'info', 'warning'];
+      const st = statuses[Math.floor(Math.random() * statuses.length)];
+      activityItems.unshift({
+        id: Date.now(),
+        label: text,
+        desc: 'Generated by AI agent workflow',
+        status: st,
+        time: 'just now'
+      });
+      input.value = '';
+      btn.disabled = false;
+      btn.textContent = 'Generate';
+      renderActivityFeed();
+      showToast('success', 'AI Activity Added', 'New event added to timeline');
+    }, 700);
+  }
+
+  // ── 10. WeatherWidget ──
+  const weatherCities = {
+    sf: { loc: 'San Francisco, CA', temp: 23, cond: 'Sunny', icon: '☀️', feels: 21, hum: 55, wind: 12, uv: 6, vis: 10, grad: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
+          forecast: [{ d: 'Mon', h: 23, l: 14, icon: '☀️' }, { d: 'Tue', h: 24, l: 15, icon: '☀️' }, { d: 'Wed', h: 21, l: 13, icon: '⛅' }, { d: 'Thu', h: 19, l: 12, icon: '☁️' }, { d: 'Fri', h: 22, l: 14, icon: '☀️' }] },
+    london: { loc: 'London, UK', temp: 11, cond: 'Rainy', icon: '🌧️', feels: 9, hum: 89, wind: 24, uv: 2, vis: 8, grad: 'linear-gradient(135deg, #475569, #64748b)',
+          forecast: [{ d: 'Mon', h: 11, l: 7, icon: '🌧️' }, { d: 'Tue', h: 13, l: 8, icon: '🌧️' }, { d: 'Wed', h: 14, l: 9, icon: '⛅' }, { d: 'Thu', h: 12, l: 7, icon: '☁️' }, { d: 'Fri', h: 11, l: 6, icon: '🌧️' }] },
+    tokyo: { loc: 'Tokyo, Japan', temp: 19, cond: 'Partly Cloudy', icon: '⛅', feels: 18, hum: 62, wind: 15, uv: 4, vis: 10, grad: 'linear-gradient(135deg, #3b82f6, #60a5fa)',
+          forecast: [{ d: 'Mon', h: 19, l: 12, icon: '⛅' }, { d: 'Tue', h: 20, l: 13, icon: '☀️' }, { d: 'Wed', h: 18, l: 11, icon: '🌧️' }, { d: 'Thu', h: 22, l: 14, icon: '☀️' }, { d: 'Fri', h: 21, l: 13, icon: '⛅' }] },
+    helsinki: { loc: 'Helsinki, Finland', temp: -4, cond: 'Snowy', icon: '❄️', feels: -8, hum: 85, wind: 18, uv: 1, vis: 6, grad: 'linear-gradient(135deg, #1e3a5f, #3b82f6)',
+          forecast: [{ d: 'Mon', h: -4, l: -9, icon: '❄️' }, { d: 'Tue', h: -2, l: -7, icon: '❄️' }, { d: 'Wed', h: 0, l: -5, icon: '☁️' }, { d: 'Thu', h: -3, l: -8, icon: '❄️' }, { d: 'Fri', h: -5, l: -10, icon: '❄️' }] },
+    miami: { loc: 'Miami, FL', temp: 28, cond: 'Thunderstorm', icon: '⛈️', feels: 32, hum: 92, wind: 55, uv: 5, vis: 7, grad: 'linear-gradient(135deg, #1e1b4b, #4338ca)',
+          forecast: [{ d: 'Mon', h: 28, l: 23, icon: '⛈️' }, { d: 'Tue', h: 29, l: 24, icon: '🌧️' }, { d: 'Wed', h: 30, l: 24, icon: '⛅' }, { d: 'Thu', h: 31, l: 25, icon: '☀️' }, { d: 'Fri', h: 29, l: 24, icon: '⛈️' }] }
+  };
+  let curCityKey = 'sf';
+  let curWeatherUnit = 'C';
+  let showForecastStrip = true;
+
+  function toUnit(celsius) {
+    if (curWeatherUnit === 'C') return celsius + '°C';
+    return Math.round((celsius * 9/5) + 32) + '°F';
+  }
+  function toUnitVal(celsius) {
+    if (curWeatherUnit === 'C') return celsius + '°';
+    return Math.round((celsius * 9/5) + 32) + '°';
+  }
+
+  function renderWeather() {
+    const data = weatherCities[curCityKey];
+    const card = document.getElementById('weather-card');
+    card.style.background = data.grad;
+    document.getElementById('weather-temp').textContent = toUnit(data.temp);
+    document.getElementById('weather-loc').textContent = data.loc;
+    document.getElementById('weather-cond-text').textContent = data.cond + ' · Feels like ' + toUnitVal(data.feels);
+    document.getElementById('weather-icon').textContent = data.icon;
+    document.getElementById('weather-hum').textContent = data.hum + '%';
+    document.getElementById('weather-wind').textContent = data.wind + ' km/h';
+    document.getElementById('weather-uv').textContent = data.uv;
+    document.getElementById('weather-vis').textContent = data.vis + ' km';
+
+    const fRow = document.getElementById('weather-forecast-row');
+    if (!showForecastStrip) {
+      fRow.style.display = 'none';
+    } else {
+      fRow.style.display = 'flex';
+      fRow.innerHTML = data.forecast.map(f =>
+        '<div class="ww-weather__forecast-col">' +
+          '<span class="ww-weather__forecast-day">' + f.d + '</span>' +
+          '<span>' + f.icon + '</span>' +
+          '<span><strong>' + toUnitVal(f.h) + '</strong> <span style="opacity:.7">' + toUnitVal(f.l) + '</span></span>' +
+        '</div>'
+      ).join('');
+    }
+  }
+
+  function setWeatherCity(key, btn) {
+    curCityKey = key;
+    document.querySelectorAll('.ww-weather__controls .ww-weather__chip').forEach(b => {
+      if (b.onclick && b.onclick.toString().includes('setWeatherCity')) b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    renderWeather();
+  }
+
+  function toggleWeatherUnit() {
+    curWeatherUnit = curWeatherUnit === 'C' ? 'F' : 'C';
+    document.getElementById('weather-unit-btn').textContent = curWeatherUnit === 'C' ? 'Switch to °F' : 'Switch to °C';
+    renderWeather();
+  }
+
+  function toggleWeatherForecast() {
+    showForecastStrip = !showForecastStrip;
+    renderWeather();
+  }
+
+  function generateAiWeather() {
+    const input = document.getElementById('weather-ai-prompt');
+    const val = input.value.trim() || 'Snowy -8°C in Oslo';
+    showToast('info', 'Weather AI Query', 'Simulating forecast for: ' + val);
+    weatherCities['custom'] = {
+      loc: 'Oslo, Norway (AI Generated)',
+      temp: -8,
+      cond: 'Snow Blizzard',
+      icon: '❄️',
+      feels: -14,
+      hum: 88,
+      wind: 34,
+      uv: 1,
+      vis: 4,
+      grad: 'linear-gradient(135deg, #0f172a, #2563eb)',
+      forecast: [
+        { d: 'Today', h: -6, l: -12, icon: '❄️' },
+        { d: 'Tomorrow', h: -5, l: -10, icon: '❄️' },
+        { d: 'Day 3', h: -3, l: -8, icon: '⛅' }
+      ]
+    };
+    curCityKey = 'custom';
+    input.value = '';
+    renderWeather();
+  }
+
+  // ── 11. CodeWidget ──
+  const codeFiles = {
+    ts: {
+      file: 'useCounter.ts',
+      lines: [
+        { num: 1, code: '<span style="color:#c084fc">import</span> { useState, useCallback } <span style="color:#c084fc">from</span> <span style="color:#86efac">\'react\'</span>;' },
+        { num: 2, code: '' },
+        { num: 3, code: '<span style="color:#c084fc">interface</span> <span style="color:#67e8f9">UseCounterOptions</span> {' },
+        { num: 4, code: '  min?: <span style="color:#67e8f9">number</span>;' },
+        { num: 5, code: '  max?: <span style="color:#67e8f9">number</span>;' },
+        { num: 6, code: '}' },
+        { num: 7, code: '<span style="color:#c084fc">export function</span> <span style="color:#fde68a">useCounter</span>(initial = 0, options: <span style="color:#67e8f9">UseCounterOptions</span> = {}) {', highlight: true },
+        { num: 8, code: '  <span style="color:#c084fc">const</span> { min = -Infinity, max = Infinity } = options;', highlight: true },
+        { num: 9, code: '  <span style="color:#c084fc">const</span> [count, setCount] = useState(initial);' },
+        { num: 10, code: '  <span style="color:#c084fc">return</span> { count, inc: () => setCount(c => Math.min(c + 1, max)) };' },
+        { num: 11, code: '}' }
+      ],
+      raw: 'import { useState, useCallback } from \'react\';\n\ninterface UseCounterOptions {\n  min?: number;\n  max?: number;\n}\n\nexport function useCounter(initial = 0, options: UseCounterOptions = {}) {\n  const { min = -Infinity, max = Infinity } = options;\n  const [count, setCount] = useState(initial);\n  return { count, inc: () => setCount(c => Math.min(c + 1, max)) };\n}'
+    },
+    py: {
+      file: 'data_analyzer.py',
+      lines: [
+        { num: 1, code: '<span style="color:#c084fc">import</span> pandas <span style="color:#c084fc">as</span> pd' },
+        { num: 2, code: '<span style="color:#c084fc">import</span> numpy <span style="color:#c084fc">as</span> np' },
+        { num: 3, code: '' },
+        { num: 4, code: '<span style="color:#c084fc">def</span> <span style="color:#fde68a">calculate_sharpe</span>(returns: pd.Series, rf: float = 0.04):', highlight: true },
+        { num: 5, code: '    excess = returns - (rf / 252)' },
+        { num: 6, code: '    <span style="color:#c084fc">return</span> np.sqrt(252) * (excess.mean() / returns.std())', highlight: true }
+      ],
+      raw: 'import pandas as pd\nimport numpy as np\n\ndef calculate_sharpe(returns: pd.Series, rf: float = 0.04):\n    excess = returns - (rf / 252)\n    return np.sqrt(252) * (excess.mean() / returns.std())'
+    },
+    sql: {
+      file: 'portfolio_metrics.sql',
+      lines: [
+        { num: 1, code: '<span style="color:#c084fc">SELECT</span> asset_symbol, current_price,' },
+        { num: 2, code: '       <span style="color:#67e8f9">ROUND</span>(((current_price - buy_price)/buy_price)*100, 2) <span style="color:#c084fc">AS</span> gain_pct', highlight: true },
+        { num: 3, code: '<span style="color:#c084fc">FROM</span> user_holdings' },
+        { num: 4, code: '<span style="color:#c084fc">ORDER BY</span> current_price <span style="color:#c084fc">DESC</span>;' }
+      ],
+      raw: 'SELECT asset_symbol, current_price,\n       ROUND(((current_price - buy_price)/buy_price)*100, 2) AS gain_pct\nFROM user_holdings\nORDER BY current_price DESC;'
+    },
+    css: {
+      file: 'theme.css',
+      lines: [
+        { num: 1, code: '<span style="color:#67e8f9">:root</span> {' },
+        { num: 2, code: '  <span style="color:#fde68a">--primary</span>: <span style="color:#86efac">#7c3aed</span>;' },
+        { num: 3, code: '  <span style="color:#fde68a">--radius-widget</span>: <span style="color:#86efac">16px</span>;' },
+        { num: 4, code: '}' }
+      ],
+      raw: ':root {\n  --primary: #7c3aed;\n  --radius-widget: 16px;\n}'
+    }
+  };
+  let curCodeKey = 'ts';
+  let isCodeEditable = false;
+
+  function renderCodeWidget() {
+    const data = codeFiles[curCodeKey];
+    document.getElementById('code-active-file').textContent = data.file;
+    const table = document.getElementById('code-table');
+    table.innerHTML = data.lines.map(l =>
+      '<tr' + (l.highlight ? ' class="ww-code-widget__row--highlight"' : '') + '>' +
+        '<td class="ww-code-widget__num">' + l.num + '</td>' +
+        '<td style="padding:0 8px;">' + (l.code || '&nbsp;') + '</td>' +
+      '</tr>'
+    ).join('');
+    document.getElementById('code-textarea').value = data.raw;
+  }
+
+  function switchCodeTab(key, btn) {
+    curCodeKey = key;
+    document.querySelectorAll('.ww-code-widget__tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCodeWidget();
+  }
+
+  function toggleCodeEditable() {
+    isCodeEditable = !isCodeEditable;
+    const view = document.getElementById('code-view-container');
+    const edit = document.getElementById('code-edit-container');
+    const btn = document.getElementById('code-edit-toggle');
+    if (isCodeEditable) {
+      view.style.display = 'none';
+      edit.style.display = 'block';
+      btn.classList.add('active');
+      btn.textContent = '👁 View Mode';
+    } else {
+      view.style.display = 'block';
+      edit.style.display = 'none';
+      btn.classList.remove('active');
+      btn.textContent = '✎ Edit Mode';
+    }
+  }
+
+  function handleCodeTextareaChange(val) {
+    codeFiles[curCodeKey].raw = val;
+    const lines = val.split('\n');
+    codeFiles[curCodeKey].lines = lines.map((l, i) => ({
+      num: i + 1,
+      code: l.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    }));
+  }
+
+  function copyCurrentCode() {
+    const text = isCodeEditable
+      ? document.getElementById('code-textarea').value
+      : codeFiles[curCodeKey].raw;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('success', 'Code Copied', 'Copied ' + codeFiles[curCodeKey].file + ' to clipboard');
+    }).catch(() => {
+      showToast('info', 'Code Ready', 'Copied code to clipboard');
+    });
+  }
+
+  function generateAiCode() {
+    const input = document.getElementById('code-ai-prompt');
+    const prompt = input.value.trim() || 'Debounce hook in React';
+    showToast('info', 'AI Code Generation', 'Generating code for: ' + prompt);
+    codeFiles['ai'] = {
+      file: 'useDebounce.ts',
+      lines: [
+        { num: 1, code: '<span style="color:#c084fc">import</span> { useState, useEffect } <span style="color:#c084fc">from</span> <span style="color:#86efac">\'react\'</span>;' },
+        { num: 2, code: '' },
+        { num: 3, code: '<span style="color:#c084fc">export function</span> <span style="color:#fde68a">useDebounce</span>&lt;T&gt;(value: T, delay = 300): T {' },
+        { num: 4, code: '  <span style="color:#c084fc">const</span> [debounced, setDebounced] = useState&lt;T&gt;(value);', highlight: true },
+        { num: 5, code: '  useEffect(() => {' },
+        { num: 6, code: '    <span style="color:#c084fc">const</span> timer = setTimeout(() => setDebounced(value), delay);' },
+        { num: 7, code: '    <span style="color:#c084fc">return</span> () => clearTimeout(timer);' },
+        { num: 8, code: '  }, [value, delay]);' },
+        { num: 9, code: '  <span style="color:#c084fc">return</span> debounced;' },
+        { num: 10, code: '}' }
+      ],
+      raw: 'import { useState, useEffect } from \'react\';\n\nexport function useDebounce<T>(value: T, delay = 300): T {\n  const [debounced, setDebounced] = useState<T>(value);\n  useEffect(() => {\n    const timer = setTimeout(() => setDebounced(value), delay);\n    return () => clearTimeout(timer);\n  }, [value, delay]);\n  return debounced;\n}'
+    };
+    curCodeKey = 'ai';
+    input.value = '';
+    renderCodeWidget();
+  }
+
+  // ── 12. FinanceWidget (NEW!) ──
+  const financeAssets = {
+    BTC: { name: 'Bitcoin', sym: 'BTC · Crypto', icon: '₿', price: 64280.5, change: 3.42, high: 65100, low: 62800, vol: '$28.4B', cap: '$1.26T', spark: [62800, 63100, 62900, 63500, 63800, 64100, 64280],
+          analysis: 'Strong bullish trend. Support consolidated at $63,000. Institutional net inflows +$420M over 48 hours.' },
+    ETH: { name: 'Ethereum', sym: 'ETH · Crypto', icon: 'Ξ', price: 3450.2, change: -1.18, high: 3520, low: 3410, vol: '$14.2B', cap: '$415B', spark: [3510, 3500, 3480, 3430, 3420, 3440, 3450],
+          analysis: 'Consolidating near key resistance ($3,500). Staking ratio reached all-time high of 28.4% of circulating supply.' },
+    SOL: { name: 'Solana', sym: 'SOL · Crypto', icon: '◎', price: 154.3, change: 7.15, high: 156.0, low: 142.5, vol: '$4.1B', cap: '$72.5B', spark: [142.5, 144.0, 147.2, 149.0, 152.4, 154.3],
+          analysis: 'High trading volume breakout. Daily active wallet addresses increased +18% week-over-week.' },
+    AAPL: { name: 'Apple Inc.', sym: 'AAPL · Stock', icon: '', price: 228.45, change: 1.85, high: 229.8, low: 226.1, vol: '$6.8B', cap: '$3.49T', spark: [226.1, 226.8, 227.4, 227.0, 228.1, 228.45],
+          analysis: 'Solid buying momentum driven by hardware upgrade cycles. Analysts target $245 over 12-month horizon.' },
+    NVDA: { name: 'NVIDIA Corp.', sym: 'NVDA · Stock', icon: '🟢', price: 138.2, change: 4.62, high: 139.5, low: 133.0, vol: '$18.9B', cap: '$3.38T', spark: [133.0, 134.2, 135.5, 136.0, 137.8, 138.2],
+          analysis: 'Data center AI chip demand remains unmatched. Forward P/E contracting on accelerating revenue beats.' },
+    TSLA: { name: 'Tesla Inc.', sym: 'TSLA · Stock', icon: '⚡', price: 218.9, change: -2.45, high: 224.5, low: 216.0, vol: '$11.2B', cap: '$698B', spark: [224.5, 222.0, 220.5, 217.8, 219.4, 218.9],
+          analysis: 'Short-term consolidation channel. Energy storage deployment hit new quarterly record (+125% YoY).' }
+  };
+  const financeCurrencies = {
+    USD: { sym: '$', rate: 1 },
+    EUR: { sym: '€', rate: 0.92 },
+    GBP: { sym: '£', rate: 0.78 },
+    JPY: { sym: '¥', rate: 152.3 },
+    RUB: { sym: '₽', rate: 96.5 }
+  };
+  let curFinanceSym = 'BTC';
+  let curFinanceCurr = 'USD';
+
+  function formatFinPrice(usdVal) {
+    const c = financeCurrencies[curFinanceCurr];
+    const val = usdVal * c.rate;
+    const decimals = val >= 1000 ? 2 : (val >= 1 ? 2 : 4);
+    return c.sym + val.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+
+  function renderFinanceWidget() {
+    const data = financeAssets[curFinanceSym];
+    document.getElementById('finance-asset-icon').textContent = data.icon;
+    document.getElementById('finance-asset-name').textContent = data.name;
+    document.getElementById('finance-asset-sym').textContent = data.sym;
+    document.getElementById('finance-price').textContent = formatFinPrice(data.price);
+    document.getElementById('finance-high').textContent = formatFinPrice(data.high);
+    document.getElementById('finance-low').textContent = formatFinPrice(data.low);
+    document.getElementById('finance-vol').textContent = data.vol;
+    document.getElementById('finance-cap').textContent = data.cap;
+
+    const badge = document.getElementById('finance-change-badge');
+    const isPos = data.change >= 0;
+    badge.className = 'ww-finance__badge ' + (isPos ? 'ww-finance__badge--pos' : 'ww-finance__badge--neg');
+    badge.textContent = (isPos ? '▲ +' : '▼ ') + data.change.toFixed(2) + '%';
+
+    // SVG Sparkline path
+    const points = data.spark;
+    const min = Math.min(...points);
+    const max = Math.max(...points);
+    const range = (max - min) || 1;
+    const width = 360;
+    const height = 48;
+    const coords = points.map((p, i) => {
+      const x = (i / (points.length - 1)) * width;
+      const y = height - ((p - min) / range) * (height - 10) - 5;
+      return [x, y];
+    });
+    const pathStr = coords.reduce((acc, [x, y], i) => i === 0 ? ('M ' + x + ' ' + y) : (acc + ' L ' + x + ' ' + y), '');
+    const fillStr = pathStr + ' L ' + width + ' ' + height + ' L 0 ' + height + ' Z';
+
+    const strokeColor = isPos ? '#10b981' : '#ef4444';
+    document.getElementById('spark-line-path').setAttribute('d', pathStr);
+    document.getElementById('spark-line-path').setAttribute('stroke', strokeColor);
+    document.getElementById('spark-fill-path').setAttribute('d', fillStr);
+    document.getElementById('spark-stop-1').setAttribute('stop-color', strokeColor);
+    document.getElementById('spark-stop-2').setAttribute('stop-color', strokeColor);
+
+    document.getElementById('finance-ai-text').textContent = data.analysis;
+  }
+
+  function setFinanceAsset(sym, btn) {
+    curFinanceSym = sym;
+    document.querySelectorAll('.ww-finance__tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderFinanceWidget();
+  }
+
+  function changeFinanceCurrency(curr) {
+    curFinanceCurr = curr;
+    renderFinanceWidget();
+  }
+
+  function generateAiFinanceInsight() {
+    const input = document.getElementById('finance-ai-prompt');
+    const val = input.value.trim() || 'Analyze 24h trend for ' + financeAssets[curFinanceSym].name;
+    showToast('info', 'AI Market Analysis', 'Computing algorithmic indicators for: ' + val);
+    const customInsights = [
+      'Momentum indicators confirm bullish trend. 20-day Moving Average provides strong floor with decreasing seller volume.',
+      'Mean reversion setup observed. Oscillators indicate temporary overbought condition near immediate resistance.',
+      'Breakout signal confirmed above consolidation range. High institutional order-book liquidity supports further appreciation.'
+    ];
+    document.getElementById('finance-ai-text').textContent = customInsights[Math.floor(Math.random() * customInsights.length)];
+    input.value = '';
+  }
+
+  // ── 13. Live Binance Crypto API Sync ──
+  function syncLiveCrypto() {
+    showToast('info', 'Connecting Binance Live API', 'Fetching 24hr real-time data for ' + curFinanceSym + '…');
+    WealthyWidgets.fetchLiveCrypto(curFinanceSym).then(res => {
+      if (res.isLive && res.data) {
+        const d = res.data;
+        financeAssets[curFinanceSym].price = d.price;
+        financeAssets[curFinanceSym].change = d.change;
+        financeAssets[curFinanceSym].high = d.high;
+        financeAssets[curFinanceSym].low = d.low;
+        financeAssets[curFinanceSym].vol = d.vol;
+        if (d.spark) financeAssets[curFinanceSym].spark = d.spark;
+        renderFinanceWidget();
+        showToast('success', 'Binance Live Connected', curFinanceSym + ' updated: ' + formatFinPrice(d.price) + ' (' + (d.change >= 0 ? '+' : '') + d.change.toFixed(2) + '%)');
+      } else {
+        showToast('warning', 'Live Data Fallback', 'Using built-in real-time market data');
+      }
+    });
+  }
+
+  // ── 14. Live Open-Meteo Weather API Sync ──
+  function syncLiveWeather() {
+    const input = document.getElementById('weather-live-city-input');
+    const city = (input ? input.value.trim() : '') || 'Tokyo';
+    showToast('info', 'Connecting Weather API', 'Fetching live forecast for ' + city + '…');
+
+    WealthyWidgets.fetchLiveWeather(city).then(res => {
+      const ind = document.getElementById('weather-live-indicator');
+      if (res.isLive && res.data) {
+        const d = res.data;
+        document.getElementById('weather-temp').textContent = toUnit(d.temp);
+        document.getElementById('weather-loc').textContent = d.city;
+        document.getElementById('weather-cond-text').textContent = d.cond + ' · Feels like ' + toUnitVal(d.feelsLike);
+        document.getElementById('weather-icon').textContent = d.icon;
+        document.getElementById('weather-hum').textContent = d.humidity + '%';
+        document.getElementById('weather-wind').textContent = d.wind + ' km/h';
+        if (ind) ind.style.display = 'inline-flex';
+        showToast('success', 'Open-Meteo Connected', 'Real-time weather loaded for ' + d.city);
+      } else {
+        if (ind) ind.style.display = 'none';
+        showToast('warning', 'Weather Fallback', 'City not found or offline. Using standard forecast.');
+      }
+    });
+  }
+
+  // ── 15. Ticker Bar Controls ──
+  function updateTickerDemo() {
+    const curr = document.getElementById('ticker-demo-curr').value;
+    const speed = document.getElementById('ticker-demo-speed').value;
+    document.getElementById('ticker-speed-val').textContent = speed + 's';
+    const mount = document.getElementById('ticker-interactive-mount');
+    mount.innerHTML = '<wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,NVDA" currency="' + curr + '" speed="' + speed + '"></wealthy-ticker>';
+  }
+
+  function copyTickerSnippet() {
+    const code = '<wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,AAPL,NVDA" currency="USD" speed="25"></wealthy-ticker>';
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('success', 'Ticker Tag Copied', 'Paste <wealthy-ticker> anywhere in your HTML');
+    }).catch(() => {
+      showToast('info', 'Snippet Ready', code);
+    });
+  }
+
+  // ── 16. Embed Studio Logic ──
+  function updateStudioConfig() {
+    const type = document.getElementById('studio-widget-type').value;
+    document.getElementById('studio-opts-finance').style.display = type === 'finance' ? 'flex' : 'none';
+    document.getElementById('studio-opts-ticker').style.display = type === 'ticker' ? 'flex' : 'none';
+    document.getElementById('studio-opts-weather').style.display = type === 'weather' ? 'flex' : 'none';
+    document.getElementById('studio-opts-activity').style.display = type === 'activity' ? 'flex' : 'none';
+    document.getElementById('studio-opts-code').style.display = type === 'code' ? 'flex' : 'none';
+    renderStudioPreview();
+  }
+
+  function renderStudioPreview() {
+    const type = document.getElementById('studio-widget-type').value;
+    const previewBox = document.getElementById('studio-preview-box');
+    const codeOutput = document.getElementById('studio-code-output');
+
+    let htmlTag = '';
+    let reactSnippet = '';
+
+    if (type === 'finance') {
+      const asset = document.getElementById('studio-fin-asset').value;
+      const curr = document.getElementById('studio-fin-curr').value;
+      previewBox.innerHTML = '<wealthy-finance asset="' + asset + '" currency="' + curr + '"></wealthy-finance>';
+      htmlTag = '<wealthy-finance asset="' + asset + '" currency="' + curr + '"></wealthy-finance>';
+      reactSnippet = '<FinanceWidget selectedSymbol="' + asset + '" currency="' + curr + '" />';
+    } else if (type === 'ticker') {
+      const symbols = document.getElementById('studio-ticker-symbols').value || 'BTC,ETH,SOL,NVDA';
+      const curr = document.getElementById('studio-ticker-curr').value;
+      const speed = document.getElementById('studio-ticker-speed').value || '30';
+      const theme = document.getElementById('studio-ticker-theme').value;
+      previewBox.innerHTML = '<div style="width:100%;"><wealthy-ticker symbols="' + symbols + '" currency="' + curr + '" speed="' + speed + '" theme="' + theme + '"></wealthy-ticker></div>';
+      htmlTag = '<wealthy-ticker symbols="' + symbols + '" currency="' + curr + '" speed="' + speed + '" theme="' + theme + '"></wealthy-ticker>';
+      reactSnippet = '<Ticker currency="' + curr + '" speed={' + speed + '} theme="' + theme + '" />';
+    } else if (type === 'weather') {
+      const city = document.getElementById('studio-weather-city').value || 'London';
+      const unit = document.getElementById('studio-weather-unit').value;
+      previewBox.innerHTML = '<wealthy-weather city="' + city + '" unit="' + unit + '"></wealthy-weather>';
+      htmlTag = '<wealthy-weather city="' + city + '" unit="' + unit + '"></wealthy-weather>';
+      reactSnippet = '<WeatherWidget city="' + city + '" unit="' + unit + '" />';
+    } else if (type === 'activity') {
+      const title = document.getElementById('studio-activity-title').value || 'Project Feed';
+      previewBox.innerHTML = '<wealthy-activity title="' + title + '"></wealthy-activity>';
+      htmlTag = '<wealthy-activity title="' + title + '"></wealthy-activity>';
+      reactSnippet = '<ActivityWidget title="' + title + '" />';
+    } else if (type === 'code') {
+      const file = document.getElementById('studio-code-file').value || 'snippet.ts';
+      previewBox.innerHTML = '<wealthy-code title="' + file + '">import { WealthyWidgets } from \'wealthywidgets\';\nconsole.log("Ready!");</wealthy-code>';
+      htmlTag = '<wealthy-code title="' + file + '">\n// Your code here\n</wealthy-code>';
+      reactSnippet = '<CodeWidget title="' + file + '" code="// Your code here" />';
+    }
+
+    const fullSnippet = '<!-- WealthyWidgets Zero-Build Embed -->\n' +
+      '<link rel="stylesheet" href="https://anom-developer.github.io/wealthywidgets/dist/styles.css" />\n' +
+      '<script src="https://anom-developer.github.io/wealthywidgets/dist/wealthywidgets.js"><' + '/script>\n\n' +
+      '<!-- Widget HTML Tag -->\n' + htmlTag + '\n\n' +
+      '/* 📌 Notion Embed Link (/embed): */\n' +
+      getNotionEmbedUrl() + '\n\n' +
+      '/* Or in React / Next.js: */\n' +
+      'import { ' + (type === 'ticker' ? 'Ticker' : (type === 'finance' ? 'FinanceWidget' : (type === 'weather' ? 'WeatherWidget' : 'ActivityWidget'))) + ' } from \'wealthywidgets\';\n' +
+      reactSnippet;
+
+    codeOutput.textContent = fullSnippet;
+  }
+
+  function getNotionEmbedUrl() {
+    const type = document.getElementById('studio-widget-type').value;
+    const base = 'https://anom-developer.github.io/wealthywidgets/embed.html';
+    const params = new URLSearchParams();
+    params.set('widget', type);
+    params.set('notion', 'true');
+    params.set('theme', 'auto');
+
+    if (type === 'finance') {
+      params.set('asset', document.getElementById('studio-fin-asset').value);
+      params.set('curr', document.getElementById('studio-fin-curr').value);
+    } else if (type === 'ticker') {
+      params.set('symbols', document.getElementById('studio-ticker-symbols').value || 'BTC,ETH,SOL,NVDA');
+      params.set('curr', document.getElementById('studio-ticker-curr').value);
+      params.set('speed', document.getElementById('studio-ticker-speed').value || '30');
+    } else if (type === 'weather') {
+      params.set('city', document.getElementById('studio-weather-city').value || 'London');
+      params.set('unit', document.getElementById('studio-weather-unit').value);
+    } else if (type === 'activity') {
+      params.set('title', document.getElementById('studio-activity-title').value || 'Project Feed');
+    } else if (type === 'code') {
+      params.set('title', document.getElementById('studio-code-file').value || 'snippet.ts');
+    }
+    return base + '?' + params.toString();
+  }
+
+  function copyNotionEmbedUrl() {
+    const url = getNotionEmbedUrl();
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('success', 'Notion Link Copied!', 'In Notion: type /embed, press Enter, paste link');
+    }).catch(() => {
+      showToast('info', 'Notion Link Ready', url);
+    });
+  }
+
+  function copyStudioEmbedCode() {
+    const code = document.getElementById('studio-code-output').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('success', 'Embed Code Copied', 'Ready to paste into HTML, WordPress, Webflow, or React');
+    }).catch(() => {
+      showToast('info', 'Code Ready', 'Embed code copied to clipboard');
+    });
+  }
+
+  function downloadStudioHtml() {
+    const code = document.getElementById('studio-code-output').textContent;
+    const blob = new Blob([
+      '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="utf-8">\n  <title>WealthyWidget Embed</title>\n</head>\n<body style="font-family:sans-serif;background:#0f172a;padding:40px;display:flex;justify-content:center;">\n  ' +
+      code +
+      '\n</body>\n</html>'
+    ], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'wealthy-widget.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('success', 'HTML Downloaded', 'Open wealthy-widget.html in any web browser');
+  }
+
+  // ── 17. PWA Service Worker & Install Prompt ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then(() => {
+        console.log('WealthyWidgets PWA Service Worker active');
+      }).catch(() => {});
+    });
+  }
+
+  let deferredPrompt = null;
+  const pwaBtn = document.getElementById('pwa-install-btn');
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (pwaBtn) pwaBtn.style.display = 'inline-flex';
+  });
+
+  if (pwaBtn) {
+    pwaBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        showToast('info', 'PWA App', 'To install on iOS: Tap Share -> Add to Home Screen');
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        pwaBtn.style.display = 'none';
+        showToast('success', 'App Installed', 'WealthyWidgets installed on your device!');
+      }
+      deferredPrompt = null;
+    });
+  }
+
+  // Initial render on load
+  renderMultiTags();
+  renderActivityFeed();
+  renderWeather();
+  renderCodeWidget();
+  renderFinanceWidget();
+  updateStudioConfig();
 </script>
 </body>
 </html>

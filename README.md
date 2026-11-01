@@ -4,9 +4,8 @@
 
 **A production-ready React component library with AI-powered generation built in.**
 
-[![CI](https://github.com/AceAnomDev/wealthywidgets/actions/workflows/ci.yml/badge.svg)](https://github.com/AceAnomDev/wealthywidgets/actions/workflows/ci.yml)
-[![Storybook](https://img.shields.io/badge/Storybook-live-ff4785?logo=storybook&logoColor=white)](https://aceanomdev.github.io/wealthywidgets/)
-[![npm version](https://img.shields.io/npm/v/wealthywidgets.svg)](https://www.npmjs.com/package/wealthywidgets)
+[![CI](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml/badge.svg)](https://github.com/anom-developer/wealthywidgets/actions/workflows/ci.yml)
+[![Storybook](https://img.shields.io/badge/Storybook-live-ff4785?logo=storybook&logoColor=white)](https://anom-developer.github.io/wealthywidgets/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue.svg)](https://www.typescriptlang.org/)
 
@@ -28,55 +27,120 @@
 | `ActivityWidget` | Scrollable event timeline with live AI feed generation               |     ✦      |
 | `WeatherWidget`  | Current conditions + 7-day forecast card with AI data generation     |     ✦      |
 | `CodeWidget`     | Syntax-highlighted code block with editing and AI snippet generation |     ✦      |
+| `FinanceWidget`  | Real-time portfolio & market tracker with sparkline chart & AI insights|     ✦      |
+| `Ticker`         | Continuous marquee ticker bar with live crypto/stock quotes & hover-pause |  ✦ (Live) |
 | `Badge`          | Compact status/category label with dot indicator for notifications   |            |
 | `Toast`          | `ToastProvider` + `useToast` hook for app-wide toast notifications   |            |
 
-> 📖 **[Live Storybook →](https://aceanomdev.github.io/wealthywidgets/)** — deploy `docs/` via GitHub Pages: Settings → Pages → Source: Deploy from branch → `/docs`
+> 📖 **[Live Interactive Showcase →](https://anom-developer.github.io/wealthywidgets/)** — deploy `docs/` via GitHub Pages: Settings → Pages → Source: Deploy from branch → `/docs`
 
 Every widget is:
 
 - ✅ **Independent** — import only what you need, zero forced bundle
+- ✅ **Live Data Ready** — Connected to Binance 24hr API (crypto) & Open-Meteo (weather) with offline fallback
+- ✅ **PWA Ready** — Installable as a native app on iOS, Android, and Desktop with offline Service Worker
 - ✅ **Accessible** — ARIA roles, keyboard nav, focus traps where needed
+- ✅ **Multi-Currency** — Native support for `USD ($)`, `EUR (€)`, `GBP (£)`, `JPY (¥)`, `RUB (₽)`
 - ✅ **Fully typed** — complete TypeScript definitions for props and slots
 - ✅ **Tested** — Jest + React Testing Library
 - ✅ **Customisable** — props + SCSS variables
 
 ---
 
-## 📦 Installation
+## 🚀 How to Use These Widgets
 
-```bash
-npm install wealthywidgets
-# or
-yarn add wealthywidgets
-# or
-pnpm add wealthywidgets
-```
-
-Add the styles once at the root of your app:
-
-```tsx
-import 'wealthywidgets/dist/styles.css';
-```
+You can use WealthyWidgets in **two ways**:
+1. **Zero-Build Web Components / HTML Embed** (any website, WordPress, Webflow, static HTML)
+2. **React & TypeScript Component Library** (Next.js, Vite, Create React App)
 
 ---
 
-## 🚀 Quick Start
+### Option 1: Pure HTML & Web Components (Zero Setup)
+
+Embed interactive widgets directly on any website with just a `<script>` tag:
+
+```html
+<!-- 1. Include stylesheet & bundle -->
+<link rel="stylesheet" href="https://anom-developer.github.io/wealthywidgets/dist/styles.css" />
+<script src="https://anom-developer.github.io/wealthywidgets/dist/wealthywidgets.js"></script>
+
+<!-- 2. Drop widgets anywhere in your body -->
+<wealthy-ticker symbols="BTC,ETH,SOL,BNB,DOGE,AAPL,NVDA" currency="USD" speed="25"></wealthy-ticker>
+<wealthy-finance asset="BTC" currency="USD" live="true"></wealthy-finance>
+<wealthy-weather city="Tokyo" temp="22" unit="C" live="true"></wealthy-weather>
+<wealthy-activity title="Recent Activity"></wealthy-activity>
+<wealthy-code title="app.ts">console.log("Hello world!");</wealthy-code>
+```
+
+> 💡 **Visual Configurator**: Open `docs/index.html` → **Embed Studio 🚀** to visually configure any widget, preview it in real time, and copy ready-to-paste embed code or download standalone HTML files!
+
+---
+
+### 📌 Notion Embed (/embed)
+
+Embed interactive live widgets directly into your **Notion** workspaces and dashboards:
+
+1. In Notion, type `/embed` on any page and press Enter.
+2. Paste the link for your desired widget:
+   - **Live Crypto Tracker**: `https://anom-developer.github.io/wealthywidgets/embed.html?widget=finance&asset=BTC&curr=USD&notion=true`
+   - **Market Ticker Bar**: `https://anom-developer.github.io/wealthywidgets/embed.html?widget=ticker&symbols=BTC,ETH,SOL,BNB,DOGE&curr=USD&notion=true`
+   - **Live Weather Forecast**: `https://anom-developer.github.io/wealthywidgets/embed.html?widget=weather&city=Tokyo&unit=C&notion=true`
+   - **Project Activity Feed**: `https://anom-developer.github.io/wealthywidgets/embed.html?widget=activity&title=Project%20Updates&notion=true`
+3. Click **Embed link** and freely resize the block!
+   - Seamlessly blends into Notion's dark and light backgrounds.
+   - Automatically adapts when you resize columns or view on Notion Mobile app.
+
+---
+
+### Option 2: React & TypeScript
+
+Install in your project:
+
+```bash
+pnpm add wealthywidgets
+# or
+yarn add wealthywidgets
+```
+
+Import styles and use components anywhere in your React tree:
 
 ```tsx
-import { Button, Card, Input } from 'wealthywidgets';
+import { Ticker, FinanceWidget, WeatherWidget, Button, Card } from 'wealthywidgets';
 import 'wealthywidgets/dist/styles.css';
 
 export default function App() {
   return (
-    <Card
-      title="Welcome"
-      description="Start building with WealthyWidgets."
-      actions={<Button variant="primary">Get Started</Button>}
-    />
+    <div>
+      {/* Real-time Ticker Bar across the header */}
+      <Ticker speed={25} currency="USD" live={true} />
+
+      <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', padding: '24px' }}>
+        <FinanceWidget title="Crypto Portfolio" currency="USD" />
+        <WeatherWidget location="San Francisco, CA" temperature={23} />
+      </div>
+    </div>
   );
 }
 ```
+
+---
+
+## ⚡ Live Real-World APIs & Offline Fallback
+
+WealthyWidgets connects to official, public, zero-key REST APIs for real-time live data:
+- **Cryptocurrency Live Quotes**: Binance Public 24hr ticker (`https://api.binance.com/api/v3/ticker/24hr?symbol=...`). Streams real-time prices, 24h highs/lows, and percentage changes.
+- **Global Weather Forecasts**: Open-Meteo Geocoding & High-Resolution Forecast (`https://geocoding-api.open-meteo.com` & `https://api.open-meteo.com`). Fetches actual temperatures, WMO weather codes, wind speeds, and relative humidity for any city worldwide.
+- **Graceful Offline Fallback**: If network is unavailable or rate-limited, all widgets instantly render built-in realistic mock data with zero disruption.
+
+---
+
+## 📱 Progressive Web App (PWA)
+
+WealthyWidgets documentation and showcase is a certified Progressive Web App:
+- Open `docs/index.html` in Chrome, Safari, or Edge.
+- Click **"Install PWA App"** (or Safari Share → *Add to Home Screen*).
+- Launches in standalone full-screen window with custom violet theme and app icon.
+- Full offline support powered by `docs/sw.js` (Service Worker cache).
 
 ---
 
@@ -495,6 +559,47 @@ export function useCounter(initial = 0) {
 
 ---
 
+### FinanceWidget ✦
+
+A real-time financial market & portfolio tracker with sparkline charts, currency switcher, 24h gain/loss indicator, and AI-powered market insight generation.
+
+```tsx
+import { FinanceWidget } from 'wealthywidgets';
+
+// Basic usage with default assets (BTC, ETH, AAPL, NVDA)
+<FinanceWidget
+  title="Market Watch"
+  currency="USD"
+  showSparkline
+  showDetails
+/>
+
+// With AI financial analysis
+<FinanceWidget
+  title="Portfolio Intelligence"
+  currency="USD"
+  onAiGenerate={async (prompt) => {
+    const analysis = await myAI.analyzeMarket(prompt);
+    showInsight(analysis);
+  }}
+/>
+```
+
+| Prop               | Type                                | Default          | Description                     |
+| ------------------ | ----------------------------------- | ---------------- | ------------------------------- |
+| `title`            | `string`                            | `'Market Watch'` | Widget heading                  |
+| `items`            | `FinanceItem[]`                     | default assets   | List of assets (BTC, ETH, etc.) |
+| `selectedSymbol`   | `string`                            | `'BTC'`          | Currently selected asset symbol |
+| `onSelectAsset`    | `(symbol: string) => void`          | —                | Callback when asset changes     |
+| `currency`         | `'USD' \| 'EUR' \| 'GBP' \| 'JPY'`  | `'USD'`          | Currency format code            |
+| `onCurrencyChange` | `(currency: Currency) => void`      | —                | Callback when currency changes  |
+| `showSparkline`    | `boolean`                           | `true`           | Render SVG sparkline chart      |
+| `showDetails`      | `boolean`                           | `true`           | Render 24h high/low/volume stats|
+| `onAiGenerate`     | `(prompt: string) => Promise<void>` | —                | AI market analysis handler      |
+| `loading`          | `boolean`                           | `false`          | Loading state                   |
+
+---
+
 ### Badge
 
 Compact label for status, category, or notification count indicators.
@@ -644,22 +749,19 @@ This pattern is provider-agnostic — use OpenAI, Anthropic, a local model, or a
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Build the library
-npm run build
+pnpm run build
 
 # Run tests
-npm test
+pnpm test
 
 # Watch mode
-npm run test -- --watch
+pnpm run test:watch
 
-# Run Storybook locally
-npm run storybook
-
-# Build Storybook into docs/ (then commit and push)
-npm run build-storybook
+# Static documentation site
+pnpm run storybook
 ```
 
 ### Project structure
@@ -673,6 +775,7 @@ src/
 │   ├── Card/
 │   ├── CodeWidget/
 │   ├── Dropdown/
+│   ├── FinanceWidget/
 │   ├── Input/
 │   ├── Modal/
 │   ├── ProgressBar/
@@ -696,4 +799,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding new components, 
 
 ## 📄 License
 
-MIT © [AceAnomDev](https://github.com/AceAnomDev)
+MIT © [anom-developer](https://github.com/anom-developer)

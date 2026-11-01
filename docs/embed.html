@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>WealthyWidgets — Embed</title>
+  <link rel="stylesheet" href="dist/styles.css" />
+  <script src="dist/wealthywidgets.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 12px;
+    }
+    /* Notion Mode */
+    body.is-notion {
+      min-height: auto;
+      padding: 4px;
+      background: transparent !important;
+    }
+    body.is-ticker {
+      min-height: auto;
+      padding: 0;
+      display: block;
+    }
+    #widget-mount {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    body.is-ticker #widget-mount {
+      max-width: 100%;
+    }
+    #widget-mount > * {
+      width: 100%;
+    }
+    /* Notion Dark Theme */
+    body.theme-notion-dark,
+    body.theme-dark {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    body.theme-notion-dark .ww-finance,
+    body.theme-dark .ww-finance {
+      background: #202020;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    body.theme-notion-dark .ww-finance__title,
+    body.theme-dark .ww-finance__title {
+      color: #fff;
+    }
+    body.theme-notion-dark .ww-activity,
+    body.theme-dark .ww-activity {
+      background: #202020;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #fff;
+    }
+    body.theme-notion-dark .ww-activity__title,
+    body.theme-dark .ww-activity__title {
+      color: #fff;
+    }
+    body.theme-notion-dark .ww-activity__label,
+    body.theme-dark .ww-activity__label {
+      color: #e2e8f0;
+    }
+    /* Notion Light Theme */
+    body.theme-notion-light .ww-finance {
+      background: #ffffff;
+      border: 1px solid rgba(55, 53, 47, 0.12);
+      box-shadow: 0 2px 8px rgba(15, 15, 15, 0.06);
+    }
+    body.theme-notion-light .ww-activity {
+      background: #ffffff;
+      border: 1px solid rgba(55, 53, 47, 0.12);
+    }
+    /* Transparent Mode */
+    body.transparent .ww-finance,
+    body.transparent .ww-activity {
+      background: transparent;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body>
+  <div id="widget-mount"></div>
+
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const widget = params.get('widget') || 'finance';
+      const theme = params.get('theme') || 'auto';
+      const isNotion = params.get('notion') === 'true' || (window.location.ancestorOrigins && Array.from(window.location.ancestorOrigins).some(function(o) { return o.includes('notion'); }));
+      const isTransparent = params.get('transparent') === 'true';
+      const mount = document.getElementById('widget-mount');
+
+      if (isNotion) {
+        document.body.classList.add('is-notion');
+      }
+      if (isTransparent) {
+        document.body.classList.add('transparent');
+      }
+
+      // Handle Theme Detection
+      function applyTheme(isDark) {
+        if (theme === 'notion-dark') {
+          document.body.classList.add('theme-notion-dark');
+        } else if (theme === 'notion-light') {
+          document.body.classList.add('theme-notion-light');
+        } else if (theme === 'dark' || (theme === 'auto' && isDark)) {
+          document.body.classList.add('theme-dark');
+          document.body.classList.remove('theme-light');
+        } else {
+          document.body.classList.add('theme-light');
+          document.body.classList.remove('theme-dark');
+        }
+      }
+
+      const mediaQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      applyTheme(mediaQuery ? mediaQuery.matches : false);
+      if (mediaQuery && mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', function(e) { applyTheme(e.matches); });
+      }
+
+      // Render Widget
+      if (widget === 'ticker') {
+        document.body.classList.add('is-ticker');
+        const symbols = params.get('symbols') || 'BTC,ETH,SOL,BNB,DOGE,NVDA,AAPL,TSLA';
+        const curr = params.get('curr') || 'USD';
+        const speed = params.get('speed') || '28';
+        const tickerTheme = (theme === 'light' || theme === 'notion-light') ? 'light' : 'dark';
+        const variant = params.get('variant') || 'default';
+        mount.innerHTML = '<wealthy-ticker symbols="' + symbols + '" currency="' + curr + '" speed="' + speed + '" theme="' + tickerTheme + '" variant="' + variant + '"></wealthy-ticker>';
+      } else if (widget === 'finance') {
+        const asset = params.get('asset') || 'BTC';
+        const curr = params.get('curr') || 'USD';
+        const title = params.get('title') || 'Market Watch';
+        const live = params.get('live') !== 'false';
+        mount.innerHTML = '<wealthy-finance asset="' + asset + '" currency="' + curr + '" title="' + title + '" live="' + live + '"></wealthy-finance>';
+      } else if (widget === 'weather') {
+        const city = params.get('city') || 'London';
+        const unit = params.get('unit') || 'C';
+        const live = params.get('live') !== 'false';
+        mount.innerHTML = '<wealthy-weather city="' + city + '" unit="' + unit + '" live="' + live + '"></wealthy-weather>';
+      } else if (widget === 'activity') {
+        const title = params.get('title') || 'Project Feed';
+        mount.innerHTML = '<wealthy-activity title="' + title + '"></wealthy-activity>';
+      } else if (widget === 'code') {
+        const title = params.get('title') || 'snippet.ts';
+        mount.innerHTML = '<wealthy-code title="' + title + '">console.log("Embedded WealthyWidget in Notion!");</wealthy-code>';
+      }
+
+      // Send height updates to parent if embedder is listening
+      function notifyHeight() {
+        const height = document.body.scrollHeight;
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'wealthywidgets:resize', height: height }, '*');
+        }
+      }
+      window.addEventListener('load', notifyHeight);
+      window.addEventListener('resize', notifyHeight);
+      setTimeout(notifyHeight, 500);
+      setTimeout(notifyHeight, 1500);
+    })();
+  </script>
+</body>
+</html>

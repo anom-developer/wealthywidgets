@@ -33,6 +33,12 @@ export type { WeatherWidgetProps, WeatherCondition, WeatherForecastDay, Temperat
 export { CodeWidget } from './components/CodeWidget';
 export type { CodeWidgetProps, CodeLanguage } from './components/CodeWidget';
 
+export { FinanceWidget } from './components/FinanceWidget';
+export type { FinanceWidgetProps, FinanceItem, Currency, AssetType } from './components/FinanceWidget';
+
+export { Ticker } from './components/Ticker';
+export type { TickerProps, TickerItem } from './components/Ticker';
+
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeVariant, BadgeSize } from './components/Badge';
 

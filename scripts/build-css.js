@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Compiles all component SCSS into dist/styles.css via sass CLI.
- * Called automatically by npm run build.
+ * Called automatically during build.
  */
 const { execSync } = require('child_process');
 const fs   = require('fs');
@@ -16,7 +16,7 @@ const out    = path.join(outDir, 'styles.css');
 const components = [
   'Button', 'Card', 'Input', 'Modal', 'Dropdown',
   'ProgressBar', 'Tooltip', 'ActivityWidget', 'WeatherWidget',
-  'CodeWidget', 'Badge', 'Toast',
+  'CodeWidget', 'Badge', 'Toast', 'FinanceWidget', 'Ticker',
 ];
 
 const lines = components
