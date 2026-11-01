@@ -10,7 +10,7 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="128" fill="url(#bg-grad)" />
-  <!-- Sparkline & Chart Symbol -->
+  <!-- Sparkline and Chart Symbol -->
   <path d="M96 350 L190 270 L280 320 L416 160" fill="none" stroke="url(#glow-grad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" />
   <circle cx="416" cy="160" r="24" fill="#38bdf8" />
   <circle cx="280" cy="320" r="16" fill="#c084fc" />

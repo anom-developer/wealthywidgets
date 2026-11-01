@@ -243,6 +243,6 @@
 
   <!-- Bottom Badges Bar -->
   <g class="sans" font-size="11" fill="#94a3b8" text-anchor="middle">
-    <text x="440" y="340">✦ Live Binance WebSocket/REST &nbsp;·&nbsp; ✦ Open-Meteo High-Res &nbsp;·&nbsp; ✦ Notion /embed &nbsp;·&nbsp; ✦ Web Components &amp; React</text>
+    <text x="440" y="340">✦ Live Binance WebSocket/REST &#160;·&#160; ✦ Open-Meteo High-Res &#160;·&#160; ✦ Notion /embed &#160;·&#160; ✦ Web Components &amp; React</text>
   </g>
 </svg>
