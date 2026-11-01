@@ -1,6 +1,7 @@
 import React from 'react';
 import { TickerProps, TickerItem } from './Ticker.types';
 import { Currency } from '../FinanceWidget/FinanceWidget.types';
+import './Ticker.scss';
 
 const DEFAULT_ITEMS: TickerItem[] = [
   { symbol: 'BTC', name: 'Bitcoin', price: 64280.5, change24h: 3.42, icon: '₿' },

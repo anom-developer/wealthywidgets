@@ -1,6 +1,6 @@
 {
   "name": "wealthywidgets",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A collection of ready-to-use, customizable React UI components for rapid prototyping and web app development",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -70,8 +70,8 @@
     "@types/jest": "^29.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.59.4",
-    "@typescript-eslint/parser": "^8.59.4",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
@@ -87,7 +87,7 @@
     "sass": "^1.80.0",
     "ts-jest": "^29.0.0",
     "tslib": "^2.6.0",
-    "typescript": "^6.0.0"
+    "typescript": "^5.6.3"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -24,7 +24,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false
+        run: pnpm install --frozen-lockfile
 
       - name: Type check
         run: pnpm run type-check
@@ -38,7 +38,7 @@ jobs:
       - name: Verify dist
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          for f in dist/index.js dist/index.esm.js dist/index.d.ts dist/styles.css; do
+          for f in dist/index.js dist/index.esm.js dist/index.d.ts dist/styles.css dist/wealthywidgets.js; do
             test -f "$f" || (echo "MISSING: $f" && exit 1)
             echo "OK: $f ($(du -sh $f | cut -f1))"
           done

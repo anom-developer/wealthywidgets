@@ -148,7 +148,6 @@ export function FinanceWidget({
 
   const isPositive = (currentItem?.change24h ?? 0) >= 0;
   const strokeColor = isPositive ? '#10b981' : '#ef4444';
-  const fillColor = isPositive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
 
   const sparklinePaths = currentItem?.sparkline
     ? buildSparklinePath(currentItem.sparkline, 360, 48)

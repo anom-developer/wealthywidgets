@@ -31,8 +31,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **Unit Tests**: Added test suites for `ActivityWidget`, `WeatherWidget`, `CodeWidget`, `FinanceWidget`, and `Ticker`.
 
 ### Changed
-- Replaced all legacy `AceAnom` references with `anom-developer`.
-- Removed all `npm` dependencies, `.npmignore`, and `package-lock.json` in favor of standard zero-dependency Web Components and `pnpm`.
+- Replaced all legacy author and repository references with anom-developer.
+- Removed all npm artifacts and lockfiles in favor of standard zero-dependency Web Components and pnpm.
 - Set repository remote to `https://github.com/anom-developer/wealthywidgets.git`.
 
 ---

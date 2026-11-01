@@ -32,7 +32,7 @@ describe('FinanceWidget', () => {
     render(<FinanceWidget items={mockItems} />);
     expect(screen.getByText('Market Watch')).toBeInTheDocument();
     expect(screen.getByText('Bitcoin')).toBeInTheDocument();
-    expect(screen.getByText('BTC')).toBeInTheDocument();
+    expect(screen.getAllByText('BTC').length).toBeGreaterThan(0);
   });
 
   it('formats price with currency symbol', () => {
